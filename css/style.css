@@ -1,0 +1,124 @@
+* {
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
+    font-family: 'Public Sans', sans-serif;
+}
+body {
+    background-color: gray
+}
+#stage {
+    width: 1200px;
+    height: 800px;
+    border: solid #2F2F2B 10px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%)
+}
+#mainMenu {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    background-color: #2F2F2B;
+}
+#mainMenu ul {
+    position: absolute;
+    top: 60%;
+    left: 50%;
+    transform: translate(-50%);
+    font-size: 52px;
+    text-align: center;
+}
+#mainMenu li {
+    padding: 10px;
+    margin: 10px 0;
+    cursor: pointer;
+    color: #FF7229;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+#mainMenu li:hover {
+    background-color: #FF7229;
+    color: #2F2F2B;
+}
+/*------------------------GAME STYLING BEGINT HIER-------------------------*/
+#game {
+    display: none;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    background-color: white;
+}
+
+#lane1, #lane2, #lane3, #lane4 {
+    position: absolute;
+    background-color: #2F2F2B;
+}
+#aimBoxL1, #aimBoxL2, #aimBoxL3, #aimBoxL4 {
+    width: 80px;
+    height: 80px;
+    background-color: #FF7229;
+}
+#game i {
+    color: white;
+    text-align: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 42px;
+}
+#lane1 {
+    width: 80px;
+    height: 360px;
+    left: 585px;
+}
+
+
+
+
+
+#lane2{
+    height: 80px;
+    width: 480px;
+    top: 50%;
+    right: 0;
+    transform: translate(0,-50%);
+}
+#lane2 span {
+    float: right;
+    /* transition: linear .1s; */
+    width: 80px;
+    height: 80px;
+    background-color: red;
+    border-radius: 50%;
+    z-index: 1;
+    color: black;
+    position: relative;
+}
+#game #aimBoxL2 {
+    position: absolute;
+    top: 360px;
+    right: 480px;
+    
+}
+
+
+
+
+
+#lane3 {
+    width: 80px;
+    height: 360px;
+    left: 585px;
+    bottom: 0;
+}  
+
+#lane4 {
+    height: 80px;
+    width: 585px;
+    top: 50%;
+    transform: translate(0,-50%);
+}
+
