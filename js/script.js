@@ -10,18 +10,21 @@ var currentTarget = -1;
 
 var targets = []
 
+var intervals = [];
 
-var speeds = [1000];
+
+var speeds = [500, 200];
 
 document.addEventListener("keypress", function(e) {
-    console.dir(targets)
+
 
     if (e.keyCode == checkFirst().key) {
-        document.getElementById(checkFirst().id).style.transition = "none";
-        document.getElementById(checkFirst().id).style.opacity = "0";
+        clearInterval(intervals[checkFirst().index])
+        document.getElementById(checkFirst().id).remove()
         targets[checkFirst().index].active = false
+        document.getElementById(checkFirst().id).style.backgroundColor = "green";
     } else {
-        alert("game over")
+        location.reload()
     }
 })
 
@@ -39,13 +42,15 @@ function makeTarget() {
         "positionY": -100,
         "moveTarget": function() {
             var trgt = this
-            var move = setInterval(function() {
+            intervals[currentTarget] = setInterval(function() {
                 targets[trgt.index]["positionY"] = targets[trgt.index]["positionY"] + 50;
                 document.getElementById("target" + trgt.index).style.top = targets[trgt.index]["positionY"] + "px";
                 if (trgt.positionY > 700) {
-                    clearInterval(move)
+                    clearInterval(intervals[trgt.index])
                     trgt.active = false;
                     document.getElementById(trgt.id).remove();
+                    console.log("gameOVer")
+                    location.reload()
                 }
             }, this.speed)
         },
