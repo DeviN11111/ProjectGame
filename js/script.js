@@ -1,89 +1,84 @@
-var mainMenu = document.getElementById("mainMenu");
-var game = document.getElementById("game")
-var startBtn = document.getElementById("startBtn");
+var test = document.getElementById("columns")
 
-var lane2 = document.getElementById("lane2");
-var arrow = document.getElementById("arrow")
-var aimBoxL2 = document.getElementById("aimBoxL2")
+var columns = [
+    document.getElementById("column1"),
+    document.getElementById("column2"),
+    document.getElementById("column3"),
+    document.getElementById("column4")
+]
+var currentTarget = -1;
 
-var targetL2 = document.getElementById("targetL2")
-
-var score = 0;
-
-var arrowDirs = ["arrow-down", "arrow-up", "arrow-left", "arrow-right"];
+var targets = []
 
 
-var targetPosX = 40;
-startBtn.onclick = function() {
-    mainMenu.style.display = "none"
-    game.style.display = "block"
-    var moverTarget = setInterval(function(){
-        aimBoxL2.style.backgroundColor = "#FF7229"
-        targetL2.style.transition = "linear .1s"
-        targetL2.style.marginRight = targetPosX+"px"
-        targetPosX = targetPosX + 40;
-        // console.log(targetPosX)
-        if (targetPosX >= 600) {
-            targetL2.remove();
-            console.log("GAME OVER")
-        }
-        
+var speeds = [1000];
 
-    },50)
+document.addEventListener("keypress", function(e) {
+    console.dir(targets)
+
+    if (e.keyCode == checkFirst().key) {
+        document.getElementById(checkFirst().id).style.transition = "none";
+        document.getElementById(checkFirst().id).style.opacity = "0";
+        targets[checkFirst().index].active = false
+    } else {
+        alert("game over")
+    }
+})
+
+function makeTarget() {
+
+    var createTarget = document.createElement("div");
+    currentTarget++
+    createTarget.id = "target" + currentTarget;
+
+    var randomNumber = Math.floor(Math.random() * 4)
+
+    var obj = {
+        "id": "target" + currentTarget,
+        "index": currentTarget,
+        "positionY": -100,
+        "moveTarget": function() {
+            var trgt = this
+            var move = setInterval(function() {
+                targets[trgt.index]["positionY"] = targets[trgt.index]["positionY"] + 50;
+                document.getElementById("target" + trgt.index).style.top = targets[trgt.index]["positionY"] + "px";
+                if (trgt.positionY > 700) {
+                    clearInterval(move)
+                    trgt.active = false;
+                    document.getElementById(trgt.id).remove();
+                }
+            }, this.speed)
+        },
+        "speed": 100,
+        "active": true,
+        "key": randomNumber + 49
+    }
+    targets.push(obj)
+
+    createTarget.style.transition = "linear " + targets[currentTarget].speed + "ms"
+
+    columns[randomNumber].appendChild(createTarget);
+
+    document.getElementById(checkFirst().id).style.backgroundColor = "green"
+
+    targets[currentTarget].moveTarget();
+}
+spawnTargets()
+
+function spawnTargets() {
+    var randomNumber = Math.floor(Math.random() * speeds.length);
+    setTimeout(function() {
+        makeTarget();
+        spawnTargets();
+    }, speeds[randomNumber])
 }
 
-document.addEventListener("keydown", arrowPress);
-
-function arrowPress(e) {
-    if (targetPosX >= 480 && targetPosX < 600) {
-        if  (e.code == "ArrowDown" && arrow.className == "fas fa-arrow-down") {
-            var randomNum = Math.floor(Math.random() * arrowDirs.length)
-            arrow.className = "fas fa-"+arrowDirs[randomNum]
-            console.log("hit")
-            targetL2.style.transition = "none"
-            targetL2.style.marginRight = 0;
-            targetPosX = 0;
-            score++;
-            aimBoxL2.style.backgroundColor = "green"
-        }
-        else if (e.code == "ArrowRight" && arrow.className == "fas fa-arrow-right") {
-            var randomNum = Math.floor(Math.random() * arrowDirs.length)
-            arrow.className = "fas fa-"+arrowDirs[randomNum]
-            console.log("hit")
-            targetL2.style.transition = "none"
-            targetL2.style.marginRight = 0;
-            targetPosX = 0;
-            score++;
-            aimBoxL2.style.backgroundColor = "green"
-        }
-        else if (e.code == "ArrowUp" && arrow.className == "fas fa-arrow-up"){
-            var randomNum = Math.floor(Math.random() * arrowDirs.length)
-            arrow.className = "fas fa-"+arrowDirs[randomNum]
-            console.log("hit")
-            targetL2.style.transition = "none"
-            targetL2.style.marginRight = 0;
-            targetPosX = 0;
-            score++;
-            aimBoxL2.style.backgroundColor = "green"
-        }
-        else if (e.code == "ArrowLeft" && arrow.className == "fas fa-arrow-left"){
-            var randomNum = Math.floor(Math.random() * arrowDirs.length)
-            arrow.className = "fas fa-"+arrowDirs[randomNum]
-            console.log("hit")
-            targetL2.style.transition = "none"
-            targetL2.style.marginRight = 0;
-            targetPosX = 0;
-            score++;
-            aimBoxL2.style.backgroundColor = "green"
-        }
-        else {
-            targetL2.remove();
-            console.log("GAME OVER")
+function checkFirst() {
+    var activeTargets = []
+    for (i = 0; i < targets.length; i++) {
+        if (targets[i].active == true) {
+            activeTargets.push(targets[i])
         }
     }
-    else {
-        targetL2.remove();
-        console.log("GAME OVER")
-    }
-        
+    return activeTargets[0]
 }
