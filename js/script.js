@@ -12,20 +12,22 @@ var targets = []
 
 var intervals = [];
 
+var gameEnd = false
 
 var speeds = [500, 200];
 
 document.addEventListener("keypress", function(e) {
-
-
-    if (e.keyCode == checkFirst().key) {
-        clearInterval(intervals[checkFirst().index])
-        document.getElementById(checkFirst().id).remove()
-        targets[checkFirst().index].active = false
-        document.getElementById(checkFirst().id).style.backgroundColor = "green";
-    } else {
-        location.reload()
-    }
+    if(gameEnd == false){
+        if (e.keyCode == checkFirst().key) {
+            clearInterval(intervals[checkFirst().index])
+            document.getElementById(checkFirst().id).remove()
+            targets[checkFirst().index].active = false
+            document.getElementById(checkFirst().id).style.backgroundColor = "green";
+        }
+        else {
+            location.reload()      
+        }
+    }   
 })
 
 function makeTarget() {
@@ -49,8 +51,7 @@ function makeTarget() {
                     clearInterval(intervals[trgt.index])
                     trgt.active = false;
                     document.getElementById(trgt.id).remove();
-                    console.log("gameOVer")
-                    location.reload()
+                    gameOver();
                 }
             }, this.speed)
         },
@@ -86,4 +87,9 @@ function checkFirst() {
         }
     }
     return activeTargets[0]
+}
+
+function gameOver(){
+    gameEnd = true;
+    document.getElementById("gameOver_content").style.display = "block"
 }
