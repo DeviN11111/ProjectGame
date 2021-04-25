@@ -31,7 +31,15 @@ var speeds = [500, 200];
 
 var score = 0;
 
-var lives = 3
+var lives = 3;
+
+
+
+var hitSound = document.getElementById("hitSound");
+
+var missSound = document.getElementById("missSound");
+
+var gameOverSound = document.getElementById("gameOverSound");
 
 document.addEventListener("keypress", function(e) {
     if (e.keyCode == 49 || e.keyCode == 50 || e.keyCode == 51 || e.keyCode == 52) {
@@ -48,14 +56,16 @@ document.addEventListener("keypress", function(e) {
                 targets[checkFirst().index].active = false
                 document.getElementById(checkFirst().id).style.backgroundColor = "green";
                 score++
-
+                hitSound.pause();
+                hitSound.currentTime = 0;
+                hitSound.play();
             } else {
                 boxes[e.keyCode - 49].style.backgroundColor = "red";
                 setTimeout(function() {
                     boxes[e.keyCode - 49].style.backgroundColor = "white";
                 }, 200)
                 loseLife()
-
+                
             }
         }
     }
@@ -131,7 +141,14 @@ function checkFirst() {
 function loseLife() {
     hearts[lives - 1].className = "fas fa-heart-broken"
     lives--
+    missSound.pause();
+    missSound.currentTime = 0;
+    missSound.play();
+    
     if (lives == 0) {
+        gameOverSound.pause();
+        gameOverSound.currentTime = 0;
+        gameOverSound.play();
         gameEnd = true;
         document.getElementById("gameOver_content").style.display = "block"
         document.getElementById("score_text").innerHTML = "Score : " + score
