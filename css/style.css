@@ -3,9 +3,11 @@
     margin: 0;
     list-style-type: none;
 }
-body{
+
+body {
     background: whitesmoke;
 }
+
 #stage {
     width: 495px;
     height: 800px;
@@ -29,26 +31,27 @@ body{
     position: relative;
 }
 
-.controlls {
+.controls {
     height: 95px;
     width: 100%;
     border-top: 5px solid black;
     position: absolute;
     bottom: 0;
     font-size: 0;
+    font-family: 'Rajdhani', sans-serif;
 }
 
-.controlls div {
+.controls div {
     text-align: center;
     width: 120px;
-    height: 100px;
+    height: 100%;
     display: inline-block;
     font-size: 70px;
     line-height: 100px;
     border-right: black solid 5px;
 }
 
-.controlls div:last-of-type,
+.controls div:last-of-type,
 #columns div:last-of-type {
     border: none;
 }
@@ -68,8 +71,13 @@ body{
     transition: 100ms;
 }
 
+
+/*//////////////////////////////////////////////////////////////////*/
+
+
 /*/////////////// styling of game over screen ///////////////////////////////*/
-#gameOver_content{
+
+#gameOver_content {
     display: none;
     position: absolute;
     top: 0;
@@ -79,8 +87,7 @@ body{
     opacity: 0.9;
 }
 
-
-#gameOver_content h1{
+#gameOver_content h1 {
     font-family: 'Rajdhani', sans-serif;
     position: absolute;
     color: white;
@@ -92,33 +99,35 @@ body{
     text-align: center;
     line-height: 100px;
 }
-#scoreDisplay{
+
+.results_display {
     position: absolute;
     border: solid white 10px;
     border-radius: 20px;
-    bottom:300px;
+    bottom: 300px;
     left: 50%;
     transform: translateX(-50%);
-    width: 400px;
-    height: 200px;
+    width: 380px;
+    height: 180px;
+    padding: 0 20px;
     color: white;
     font-size: 26px;
     font-family: 'Rajdhani', sans-serif;
 }
 
-#scoreDisplay p:nth-of-type(1){
+.results_display p {
+    padding: 10px;
+}
+
+.results_display #level_text {
     text-align: center;
 }
 
-#scoreDisplay p:nth-of-type(2) span:nth-of-type(2){
+.results_display p:nth-of-type(2) #time_text {
     float: right;
-    
-}
-#scoreDisplay p{
-    padding: 10px; 
 }
 
-.gameOverButtons{
+.gameOver_options {
     font-family: 'Rajdhani', sans-serif;
     position: absolute;
     color: white;
@@ -126,22 +135,51 @@ body{
     left: 50%;
     transform: translate(-50%, -50%);
     text-transform: uppercase;
-    cursor: pointer;
     width: 400px;
     height: 100px;
     font-size: 50px;
 }
 
-.gameOverButtons i:hover{
+.gameOver_options #retry:hover i,
+.gameOver_options #home:hover i {
     font-size: 55px;
 }
 
-#home{
+#retry {
+    cursor: pointer;
+}
+
+#home {
+    cursor: pointer;
     float: right;
 }
-#retry i{
+
+#retry i {
     transition: linear 310ms;
 }
-#retry i:hover{
+
+#retry:hover i {
     transform: rotate(-360deg)
 }
+
+
+/*//////////////////////////////////////////////////////////////////*/
+
+
+/*/////////////// styling of hearts ///////////////////////////////*/
+
+.hearts {
+    position: absolute;
+    bottom: -55px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.hearts i {
+    color: red;
+    font-size: 40px;
+    padding: 0 2px;
+}
+
+
+/*//////////////////////////////////////////////////////////////////*/

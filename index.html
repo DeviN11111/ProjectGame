@@ -22,29 +22,36 @@
             <div id="column4"></div>
         </div>
 
-        <div class="controlls">
-            <div>1</div>
-            <div>2</div>
-            <div>3</div>
-            <div>4</div>
+        <div class="controls">
+            <div id="box1">1</div>
+            <div id="box2">2</div>
+            <div id="box3">3</div>
+            <div id="box4">4</div>
         </div>
 
         <div id="gameOver_content">
             <h1>game over</h1>
 
-            <div id="scoreDisplay">
-                <p id="level_text">Level: 5</p>
-                <p><span id="score_text">Score: 10</span><span id="time_text">Time: 10m 23s</span></p>
-                <p id="highscore_text">Best: 384</p>
+            <div class="results_display">
+                <p id="level_text">Level : 0</p>
+                <p><span id="score_text">Score : 0</span><span id="time_text">Time : 0</span></p>
+                <p id="highscore_text">Best : 0</p>
             </div>
 
-            <div class="gameOverButtons">
-                <a id="retry"><i class="fas fa-undo-alt"></i></a>
-                <a id="home"><i class="fas fa-home"></i></a>
+            <div class="gameOver_options">
+                <span id="retry"><i class="fas fa-undo-alt"></i></span>
+                <span id="home"><i class="fas fa-home"></i></span>
             </div>
-            
+
+        </div>
+
+        <div class="hearts">
+            <i id="heart1" class="fas fa-heart"></i>
+            <i id="heart2" class="fas fa-heart"></i>
+            <i id="heart3" class="fas fa-heart"></i>
         </div>
     </div>
+
     <script src="js/script.js"></script>
 </body>
 

@@ -6,6 +6,18 @@ var columns = [
     document.getElementById("column3"),
     document.getElementById("column4")
 ]
+var boxes = [
+    document.getElementById("box1"),
+    document.getElementById("box2"),
+    document.getElementById("box3"),
+    document.getElementById("box4")
+]
+var hearts = [
+    document.getElementById("heart1"),
+    document.getElementById("heart2"),
+    document.getElementById("heart3")
+]
+
 var currentTarget = -1;
 
 var targets = []
@@ -14,20 +26,39 @@ var intervals = [];
 
 var gameEnd = false
 
+
 var speeds = [500, 200];
 
+var score = 0;
+
+var lives = 3
+
 document.addEventListener("keypress", function(e) {
-    if(gameEnd == false){
-        if (e.keyCode == checkFirst().key) {
-            clearInterval(intervals[checkFirst().index])
-            document.getElementById(checkFirst().id).remove()
-            targets[checkFirst().index].active = false
-            document.getElementById(checkFirst().id).style.backgroundColor = "green";
+    if (e.keyCode == 49 || e.keyCode == 50 || e.keyCode == 51 || e.keyCode == 52) {
+        if (gameEnd == false) {
+            if (e.keyCode == checkFirst().key) {
+                clearInterval(intervals[checkFirst().index])
+                document.getElementById(checkFirst().id).remove()
+                console.log(checkFirst().key)
+                boxes[checkFirst().key - 49].style.backgroundColor = "green";
+                var temp = boxes[checkFirst().key - 49]
+                setTimeout(function() {
+                    temp.style.backgroundColor = "white";
+                }, 200)
+                targets[checkFirst().index].active = false
+                document.getElementById(checkFirst().id).style.backgroundColor = "green";
+                score++
+
+            } else {
+                boxes[e.keyCode - 49].style.backgroundColor = "red";
+                setTimeout(function() {
+                    boxes[e.keyCode - 49].style.backgroundColor = "white";
+                }, 200)
+                loseLife()
+
+            }
         }
-        else {
-            location.reload()      
-        }
-    }   
+    }
 })
 
 function makeTarget() {
@@ -49,9 +80,17 @@ function makeTarget() {
                 document.getElementById("target" + trgt.index).style.top = targets[trgt.index]["positionY"] + "px";
                 if (trgt.positionY > 700) {
                     clearInterval(intervals[trgt.index])
+                    if (gameEnd == false) {
+                        boxes[checkFirst().key - 49].style.backgroundColor = "red";
+                        var temp = boxes[checkFirst().key - 49]
+                        setTimeout(function() {
+                            temp.style.backgroundColor = "white";
+                        }, 200)
+                        loseLife()
+                    }
                     trgt.active = false;
                     document.getElementById(trgt.id).remove();
-                    gameOver();
+
                 }
             }, this.speed)
         },
@@ -89,7 +128,13 @@ function checkFirst() {
     return activeTargets[0]
 }
 
-function gameOver(){
-    gameEnd = true;
-    document.getElementById("gameOver_content").style.display = "block"
+function loseLife() {
+    hearts[lives - 1].className = "fas fa-heart-broken"
+    lives--
+    if (lives == 0) {
+        gameEnd = true;
+        document.getElementById("gameOver_content").style.display = "block"
+        document.getElementById("score_text").innerHTML = "Score : " + score
+    }
+
 }
