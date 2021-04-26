@@ -22,18 +22,19 @@ var currentTarget = -1;
 
 var targets = []
 
+var totalTimer;
 var intervals = [];
 
 var gameEnd = false
 
 
-var speeds = [200, 300, 400];
+var keys = [113, 119, 111, 112];
+
+var speeds = [300];
 
 var score = 0;
 
 var lives = 3;
-
-
 
 var hitSound = document.getElementById("hitSound");
 
@@ -41,34 +42,38 @@ var missSound = document.getElementById("missSound");
 
 var gameOverSound = document.getElementById("gameOverSound");
 
-var timeSEC = 3
+var countDownSEC = 3
+
+var totalTimeSEC = 1;
+var totalTimeMIN = 0;
 
 document.addEventListener("keypress", function(e) {
-    if (e.keyCode == 49 || e.keyCode == 50 || e.keyCode == 51 || e.keyCode == 52) {
+    console.log(e.keyCode)
+    if (e.keyCode == keys[0] || e.keyCode == keys[1] || e.keyCode == keys[2] || e.keyCode == keys[3]) {
         if (gameEnd == false) {
             if (e.keyCode == checkFirst().key) {
                 clearInterval(intervals[checkFirst().index])
                 document.getElementById(checkFirst().id).remove()
-                console.log(checkFirst().key)
-                boxes[checkFirst().key - 49].style.backgroundColor = "green";
-                var temp = boxes[checkFirst().key - 49]
+                boxes[checkFirst().column].style.backgroundColor = "green";
+                var temp = boxes[checkFirst().column]
                 setTimeout(function() {
                     temp.style.backgroundColor = "white";
                 }, 200)
                 targets[checkFirst().index].active = false
-                document.getElementById(checkFirst().id).style.backgroundColor = "green";
+                if (checkFirst() != "none") {
+                    document.getElementById(checkFirst().id).style.backgroundColor = "green";
+                }
                 score++
-                document.getElementById("gameScore").innerHTML = "Score : " + score;
+                document.getElementById("LIVE_score_text").innerHTML = "Score : " + score;
                 hitSound.pause();
                 hitSound.currentTime = 0;
                 hitSound.play();
             } else {
-                boxes[e.keyCode - 49].style.backgroundColor = "red";
+                boxes[keys.indexOf(e.keyCode)].style.backgroundColor = "red";
                 setTimeout(function() {
-                    boxes[e.keyCode - 49].style.backgroundColor = "white";
+                    boxes[keys.indexOf(e.keyCode)].style.backgroundColor = "white";
                 }, 200)
                 loseLife()
-                
             }
         }
     }
@@ -94,8 +99,8 @@ function makeTarget() {
                 if (trgt.positionY > 700) {
                     clearInterval(intervals[trgt.index])
                     if (gameEnd == false) {
-                        boxes[checkFirst().key - 49].style.backgroundColor = "red";
-                        var temp = boxes[checkFirst().key - 49]
+                        boxes[trgt.column].style.backgroundColor = "red";
+                        var temp = boxes[trgt.column]
                         setTimeout(function() {
                             temp.style.backgroundColor = "white";
                         }, 200)
@@ -107,9 +112,10 @@ function makeTarget() {
                 }
             }, this.speed)
         },
-        "speed": 50,
+        "speed": 100,
         "active": true,
-        "key": randomNumber + 49
+        "column": randomNumber,
+        "key": keys[randomNumber]
     }
     targets.push(obj)
 
@@ -138,7 +144,12 @@ function checkFirst() {
             activeTargets.push(targets[i])
         }
     }
-    return activeTargets[0]
+    if (activeTargets.length == 0) {
+        return "none"
+    } else {
+        return activeTargets[0]
+    }
+
 }
 
 function loseLife() {
@@ -147,39 +158,49 @@ function loseLife() {
     missSound.pause();
     missSound.currentTime = 0;
     missSound.play();
-    
+
     if (lives == 0) {
         gameOverSound.pause();
         gameOverSound.currentTime = 0;
         gameOverSound.play();
         gameEnd = true;
+        clearInterval(totalTimer);
         document.getElementById("gameOver_content").style.display = "block"
         document.getElementById("score_text").innerHTML = "Score : " + score
+        document.getElementById("Totaltime_text").innerHTML = "Time : " + totalTimeMIN + "m " + totalTimeSEC + "s"
     }
 
 }
 
 
-var stopTimer = setInterval(timer, 1000)
-function timer(){
-    timeSEC--
-    document.getElementById("countDownText").innerHTML = timeSEC
-    if(timeSEC == -1){
-        document.getElementById("countDownText").innerHTML = "GO!"
-    } else if(timeSEC == -2){
+var countDownTimer = setInterval(countDownTimer, 1000)
+
+function countDownTimer() {
+    countDownSEC--
+    document.getElementById("countDown_text").innerHTML = countDownSEC;
+    if (countDownSEC == 0) {
+        document.getElementById("countDown_text").innerHTML = "GO!";
+    } else if (countDownSEC == -1) {
+        totalTimer = setInterval(totalTimer, 1000)
         spawnTargets()
-        document.getElementById("countDown").style.display = "none"
-        clearInterval(stopTimer)
-        timeSEC = 3
+        document.getElementById("countDown").style.display = "none";
+        clearInterval(countDownTimer)
+        countDownSEC = 3
     }
-    
+
+}
+
+
+function totalTimer() {
+    totalTimeSEC++
+    if (totalTimeSEC == 60) {
+        totalTimeSEC = 0;
+        totalTimeMIN++
+    }
 }
 
 
 
-document.getElementById("retry").onclick = function(){
-    location.reload(); 
+document.getElementById("retry").onclick = function() {
+    location.reload();
 }
-
-
-

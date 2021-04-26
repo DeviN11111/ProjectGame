@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>qwop</title>
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@700&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/3e223e0cbe.js" crossorigin="anonymous"></script>
@@ -15,59 +15,59 @@
 
 <body>
 
-    <audio id="hitSound"><source src="sounds/hitSound.mp3" type="audio/mpeg"></audio> 
+    <audio id="hitSound"><source src="sounds/hitSound.mp3" type="audio/mpeg"></audio>
     <audio id="missSound"><source src="sounds/missSound.mp3" type="audio/mpeg"></audio>
     <audio id="gameOverSound"><source src="sounds/gameOverSound.mp3" type="audio/mpeg"></audio>
 
 
-    <div id="stage">
-        <div id="columns">
-            <div id="column1"></div>
-            <div id="column2"></div>
-            <div id="column3"></div>
-            <div id="column4"></div>
+    <div class="container">
+        <div class="gameStats">
+            <div class="gameStats_content">
+                <span id="LIVE_score_text">Score : 0</span>
+                <span class="hearts">
+                    <i id="heart1" class="fas fa-heart"></i>
+                    <i id="heart2" class="fas fa-heart"></i>
+                    <i id="heart3" class="fas fa-heart"></i>
+                </span>
+            </div>
         </div>
-
-        <div class="controls">
-            <div id="box1">1</div>
-            <div id="box2">2</div>
-            <div id="box3">3</div>
-            <div id="box4">4</div>
-        </div>
-
-        <div id="gameOver_content">
-            <h1>game over</h1>
-
-            <div class="results_display">
-                <p id="level_text">Level : 0</p>
-                <p><span id="score_text">Score : 0</span><span id="time_text">Time : 0</span></p>
-                <p id="highscore_text">Best : 0</p>
+        <div id="stage">
+            <div id="columns">
+                <div id="column1"></div>
+                <div id="column2"></div>
+                <div id="column3"></div>
+                <div id="column4"></div>
             </div>
 
-            <div class="gameOver_options">
-                <span id="retry"><i class="fas fa-undo-alt"></i></span>
-                <span id="home"><i class="fas fa-home"></i></span>
+            <div class="controls">
+                <div id="box1">q</div>
+                <div id="box2">w</div>
+                <div id="box3">o</div>
+                <div id="box4">p</div>
+            </div>
+
+            <div id="gameOver_content">
+                <div id="gameOver_animation">
+                    <h1>game over</h1>
+
+                    <div class="results_display">
+                        <p id="level_text">Level : 0</p>
+                        <p><span id="score_text">Score : 0</span><span id="Totaltime_text">Time : 0</span></p>
+                        <p id="highscore_text">Best : 0</p>
+                    </div>
+
+                    <div class="gameOver_options">
+                        <span id="retry"><i class="fas fa-undo-alt"></i></span>
+                        <span id="home"><i class="fas fa-home"></i></span>
+                    </div>
+                </div>
+            </div>
+
+            <div id="countDown">
+                <h1 id="countDown_text">3</h1>
             </div>
 
         </div>
-
-
-        <div id="countDown">
-            <h1 id="countDownText">3</h1>
-        </div>
-
-
-        <div class="hearts">
-            <i id="heart1" class="fas fa-heart"></i>
-            <i id="heart2" class="fas fa-heart"></i>
-            <i id="heart3" class="fas fa-heart"></i>
-        </div>
-
-        <div id="gameStats">
-            <p><span id="gameScore">Score : 0</span></p>
-        </div>
-            
-    
     </div>
 
     <script src="js/script.js"></script>
