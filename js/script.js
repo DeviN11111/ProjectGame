@@ -48,9 +48,8 @@ var totalTimeSEC = 1;
 var totalTimeMIN = 0;
 
 document.addEventListener("keypress", function(e) {
-    console.log(e.keyCode)
     if (e.keyCode == keys[0] || e.keyCode == keys[1] || e.keyCode == keys[2] || e.keyCode == keys[3]) {
-        if (gameEnd == false) {
+        if (gameEnd == false && countDownSEC == -1) {
             if (e.keyCode == checkFirst().key) {
                 clearInterval(intervals[checkFirst().index])
                 document.getElementById(checkFirst().id).remove()
@@ -185,7 +184,6 @@ function countDownTimer() {
         spawnTargets()
         document.getElementById("countDown").style.display = "none";
         clearInterval(countDownTimer)
-        countDownSEC = 3
     }
 
 }
