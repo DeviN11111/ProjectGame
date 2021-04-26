@@ -170,15 +170,15 @@ body {
 
 .hearts {
     position: absolute;
-    bottom: -55px;
-    left: 50%;
-    transform: translateX(-50%);
+    top: -50px;
+    right: 0;
+    
 }
 
 .hearts i {
     color: red;
     font-size: 40px;
-    padding: 0 2px;
+    padding: 0 7px;
 }
 
 
