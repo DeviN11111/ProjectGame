@@ -27,7 +27,7 @@ var intervals = [];
 var gameEnd = false
 
 
-var speeds = [200, 300, 400, 100, 600];
+var speeds = [200, 300, 400];
 
 var score = 0;
 
@@ -107,7 +107,7 @@ function makeTarget() {
                 }
             }, this.speed)
         },
-        "speed": 100,
+        "speed": 50,
         "active": true,
         "key": randomNumber + 49
     }
