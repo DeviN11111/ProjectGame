@@ -170,6 +170,7 @@ function timer(){
         spawnTargets()
         document.getElementById("countDown").style.display = "none"
         clearInterval(stopTimer)
+        timeSEC = 3
     }
     
 }
