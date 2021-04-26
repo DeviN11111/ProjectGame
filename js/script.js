@@ -27,7 +27,7 @@ var intervals = [];
 var gameEnd = false
 
 
-var speeds = [500, 200];
+var speeds = [200, 300, 400, 100, 600];
 
 var score = 0;
 
@@ -40,6 +40,8 @@ var hitSound = document.getElementById("hitSound");
 var missSound = document.getElementById("missSound");
 
 var gameOverSound = document.getElementById("gameOverSound");
+
+var timeSEC = 3
 
 document.addEventListener("keypress", function(e) {
     if (e.keyCode == 49 || e.keyCode == 50 || e.keyCode == 51 || e.keyCode == 52) {
@@ -56,6 +58,7 @@ document.addEventListener("keypress", function(e) {
                 targets[checkFirst().index].active = false
                 document.getElementById(checkFirst().id).style.backgroundColor = "green";
                 score++
+                document.getElementById("gameScore").innerHTML = "Score : " + score;
                 hitSound.pause();
                 hitSound.currentTime = 0;
                 hitSound.play();
@@ -118,7 +121,7 @@ function makeTarget() {
 
     targets[currentTarget].moveTarget();
 }
-spawnTargets()
+
 
 function spawnTargets() {
     var randomNumber = Math.floor(Math.random() * speeds.length);
@@ -155,3 +158,27 @@ function loseLife() {
     }
 
 }
+
+
+var stopTimer = setInterval(timer, 1000)
+function timer(){
+    timeSEC--
+    document.getElementById("countDownText").innerHTML = timeSEC
+    if(timeSEC == -1){
+        document.getElementById("countDownText").innerHTML = "GO!"
+    } else if(timeSEC == -2){
+        spawnTargets()
+        document.getElementById("countDown").style.display = "none"
+        clearInterval(stopTimer)
+    }
+    
+}
+
+
+
+document.getElementById("retry").onclick = function(){
+    location.reload(); 
+}
+
+
+
