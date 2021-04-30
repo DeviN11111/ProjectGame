@@ -1,5 +1,3 @@
-var test = document.getElementById("columns")
-
 var columns = [
     document.getElementById("column1"),
     document.getElementById("column2"),
@@ -22,17 +20,18 @@ var currentTarget = -1;
 
 var targets = []
 
-var totalTimer;
 var intervals = [];
+var spawnTimeout;
+var totalTimerInterval;
 
 var gameEnd = false
 
-
 var keys = [113, 119, 111, 112];
 
-var speeds = [300];
+var spawnSpeeds = [300];
 
 var score = 0;
+var bestScore = 0;
 
 var lives = 3;
 
@@ -127,13 +126,12 @@ function makeTarget() {
     targets[currentTarget].moveTarget();
 }
 
-
 function spawnTargets() {
-    var randomNumber = Math.floor(Math.random() * speeds.length);
-    setTimeout(function() {
+    var randomNumber = Math.floor(Math.random() * spawnSpeeds.length);
+    spawnTimeout = setTimeout(function() {
         makeTarget();
         spawnTargets();
-    }, speeds[randomNumber])
+    }, spawnSpeeds[randomNumber])
 }
 
 function checkFirst() {
@@ -148,7 +146,6 @@ function checkFirst() {
     } else {
         return activeTargets[0]
     }
-
 }
 
 function loseLife() {
@@ -163,16 +160,19 @@ function loseLife() {
         gameOverSound.currentTime = 0;
         gameOverSound.play();
         gameEnd = true;
-        clearInterval(totalTimer);
+        clearInterval(totalTimerInterval);
+        if (score > bestScore) {
+            bestScore = score;
+        }
         document.getElementById("gameOver_content").style.display = "block"
         document.getElementById("score_text").innerHTML = "Score : " + score
+        document.getElementById("highscore_text").innerHTML = "Best : " + bestScore;
         document.getElementById("Totaltime_text").innerHTML = "Time : " + totalTimeMIN + "m " + totalTimeSEC + "s"
     }
 
 }
 
-
-var countDownTimer = setInterval(countDownTimer, 1000)
+var countDownInterval = setInterval(countDownTimer, 1000)
 
 function countDownTimer() {
     countDownSEC--
@@ -180,14 +180,13 @@ function countDownTimer() {
     if (countDownSEC == 0) {
         document.getElementById("countDown_text").innerHTML = "GO!";
     } else if (countDownSEC == -1) {
-        totalTimer = setInterval(totalTimer, 1000)
+        totalTimerInterval = setInterval(totalTimer, 1000)
         spawnTargets()
         document.getElementById("countDown").style.display = "none";
-        clearInterval(countDownTimer)
+        clearInterval(countDownInterval)
     }
 
 }
-
 
 function totalTimer() {
     totalTimeSEC++
@@ -197,8 +196,33 @@ function totalTimer() {
     }
 }
 
-
+function reloadGame() {
+    clearTimeout(spawnTimeout)
+    for (i = 0; i < columns.length; i++) {
+        columns[i].innerHTML = "";
+    }
+    for (i = 0; i < intervals.length; i++) {
+        clearInterval(intervals[i])
+    }
+    for (i = 0; i < hearts.length; i++) {
+        hearts[i].className = "fas fa-heart"
+    }
+    currentTarget = -1
+    targets = [];
+    intervals = []
+    score = 0;
+    lives = 3;
+    countDownSEC = 3;
+    totalTimeSEC = 1;
+    totalTimeMIN = 0;
+    gameEnd = false;
+    document.getElementById("LIVE_score_text").innerHTML = "Score : 0";
+    document.getElementById("countDown_text").innerHTML = "3";
+    document.getElementById("countDown").style.display = "block"
+    document.getElementById("gameOver_content").style.display = "none"
+    countDownInterval = setInterval(countDownTimer, 1000)
+}
 
 document.getElementById("retry").onclick = function() {
-    location.reload();
+    reloadGame()
 }
