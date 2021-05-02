@@ -226,3 +226,12 @@ function reloadGame() {
 document.getElementById("retry").onclick = function() {
     reloadGame()
 }
+
+document.getElementById("home").onclick = function(){
+    document.getElementById("menu_content").style.display = "block"
+}
+
+document.getElementById("survival").onclick = function(){
+    document.getElementById("menu_content").style.display = "none"
+    reloadGame()
+}
