@@ -78,20 +78,22 @@ body {
     background-color: red;
     text-align: center;
     font-family: 'Rajdhani', sans-serif;
+    text-transform: uppercase;
 }
 
 .menu_content h1{
     position: absolute;
-    top: 200px;
+    top: 160px;
     left: 50%;
     transform: translateX(-50%);
-    font-size: 54px;
+    font-size: 90px;
+    width: 100%;
 }
 
 .menu_options{
     font-size: 36px;
     position: absolute;
-    top: 50%;
+    top: 55%;
     left: 50%;
     transform: translate(-50%, -50%);
     width: 100%;
@@ -99,8 +101,14 @@ body {
 
 .menu_options a{
     line-height: 70px;
-    width: 100%;
+    width: 300px;
+    border: solid black 3px;
+    border-radius: 20px;
+    text-align: center;
     display: block;
+    margin-left: 50%;
+    transform: translate(-50%);
+    margin-top: 10px;
 }
 
 .menu_options a:hover{
@@ -126,8 +134,18 @@ body {
     float: right;
 }
 
+#leaderboards:hover{
+    color: gold;
+}
+
 #settings{
     float: left;
+    transition: 500ms;
+}
+
+#settings:hover{
+    transform: rotate(180deg);
+    color: gray;
 }
 
 /*//////////////////////////////////////////////////////////////////*/
@@ -298,6 +316,7 @@ body {
     border-bottom: none;
     width: 495px;
     height: 50px;
+    visibility: hidden;
 }
 
 .gameStats_content {

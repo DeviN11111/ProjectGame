@@ -46,6 +46,7 @@ var countDownSEC = 3
 var totalTimeSEC = 1;
 var totalTimeMIN = 0;
 
+
 document.addEventListener("keypress", function(e) {
     if (e.keyCode == keys[0] || e.keyCode == keys[1] || e.keyCode == keys[2] || e.keyCode == keys[3]) {
         if (gameEnd == false && countDownSEC == -1) {
@@ -229,9 +230,15 @@ document.getElementById("retry").onclick = function() {
 
 document.getElementById("home").onclick = function(){
     document.getElementById("menu_content").style.display = "block"
+    document.getElementById("gameStats").style.visibility = "hidden"
 }
 
 document.getElementById("survival").onclick = function(){
     document.getElementById("menu_content").style.display = "none"
+    document.getElementById("gameStats").style.visibility = "visible"
     reloadGame()
 }
+
+window.onbeforeunload = function(){
+    return 'Are you sure you want to leave?';
+  };
