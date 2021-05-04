@@ -56,7 +56,7 @@ document.addEventListener("keypress", function(e) {
                 boxes[checkFirst().column].style.backgroundColor = "green";
                 var temp = boxes[checkFirst().column]
                 setTimeout(function() {
-                    temp.style.backgroundColor = "white";
+                    temp.style.backgroundColor = "rgb(27, 27, 61)";
                 }, 200)
                 targets[checkFirst().index].active = false
                 if (checkFirst() != "none") {
@@ -70,7 +70,7 @@ document.addEventListener("keypress", function(e) {
             } else {
                 boxes[keys.indexOf(e.keyCode)].style.backgroundColor = "red";
                 setTimeout(function() {
-                    boxes[keys.indexOf(e.keyCode)].style.backgroundColor = "white";
+                    boxes[keys.indexOf(e.keyCode)].style.backgroundColor = "rgb(27, 27, 61)";
                 }, 200)
                 loseLife()
             }
@@ -101,7 +101,7 @@ function makeTarget() {
                         boxes[trgt.column].style.backgroundColor = "red";
                         var temp = boxes[trgt.column]
                         setTimeout(function() {
-                            temp.style.backgroundColor = "white";
+                            temp.style.backgroundColor = "rgb(27, 27, 61)";
                         }, 200)
                         loseLife()
                     }
@@ -169,11 +169,11 @@ function loseLife() {
         document.getElementById("score_text").innerHTML = "Score : " + score
         document.getElementById("highscore_text").innerHTML = "Best : " + bestScore;
         document.getElementById("Totaltime_text").innerHTML = "Time : " + totalTimeMIN + "m " + totalTimeSEC + "s"
+        document.getElementById("gameStats").style.display = "none"
     }
 
 }
 
-var countDownInterval = setInterval(countDownTimer, 1000)
 
 function countDownTimer() {
     countDownSEC--
@@ -221,6 +221,7 @@ function reloadGame() {
     document.getElementById("countDown_text").innerHTML = "3";
     document.getElementById("countDown").style.display = "block"
     document.getElementById("gameOver_content").style.display = "none"
+    document.getElementById("gameStats").style.display = "block"
     countDownInterval = setInterval(countDownTimer, 1000)
 }
 
@@ -238,6 +239,14 @@ document.getElementById("survival").onclick = function(){
     document.getElementById("gameStats").style.visibility = "visible"
     reloadGame()
 }
+document.getElementById("credits").onclick = function(){
+    document.getElementById("credits_page").style.display ="block";
+}
+
+document.getElementById("leave_credits_page").onclick = function(){
+    document.getElementById("credits_page").style.display ="none";
+}
+
 
 window.onbeforeunload = function(){
     return 'Are you sure you want to leave?';
