@@ -16,6 +16,9 @@ var hearts = [
     document.getElementById("heart3")
 ]
 
+var colors = [
+    "rgb(27, 27, 61)" // Default color
+]
 var currentTarget = -1;
 
 var targets = []
@@ -56,7 +59,7 @@ document.addEventListener("keypress", function(e) {
                 boxes[checkFirst().column].style.backgroundColor = "green";
                 var temp = boxes[checkFirst().column]
                 setTimeout(function() {
-                    temp.style.backgroundColor = "rgb(27, 27, 61)";
+                    temp.style.backgroundColor = colors[0];
                 }, 200)
                 targets[checkFirst().index].active = false
                 if (checkFirst() != "none") {
@@ -70,7 +73,7 @@ document.addEventListener("keypress", function(e) {
             } else {
                 boxes[keys.indexOf(e.keyCode)].style.backgroundColor = "red";
                 setTimeout(function() {
-                    boxes[keys.indexOf(e.keyCode)].style.backgroundColor = "rgb(27, 27, 61)";
+                    boxes[keys.indexOf(e.keyCode)].style.backgroundColor = colors[0];
                 }, 200)
                 loseLife()
             }
@@ -101,7 +104,7 @@ function makeTarget() {
                         boxes[trgt.column].style.backgroundColor = "red";
                         var temp = boxes[trgt.column]
                         setTimeout(function() {
-                            temp.style.backgroundColor = "rgb(27, 27, 61)";
+                            temp.style.backgroundColor = colors[0];
                         }, 200)
                         loseLife()
                     }
@@ -229,12 +232,12 @@ document.getElementById("retry").onclick = function() {
     reloadGame()
 }
 
-document.getElementById("home").onclick = function(){
+document.getElementById("home").onclick = function() {
     document.getElementById("menu_content").style.display = "block"
     document.getElementById("gameStats").style.visibility = "hidden"
 }
 
-document.getElementById("survival").onclick = function(){
+document.getElementById("survival").onclick = function() {
     document.getElementById("menu_content").style.display = "none"
     document.getElementById("gameStats").style.visibility = "visible"
     reloadGame()
@@ -242,70 +245,97 @@ document.getElementById("survival").onclick = function(){
 
 
 // buttons for credits page
-document.getElementById("credits").onclick = function(){
-    document.getElementById("credits_page").style.display ="block";
+document.getElementById("credits").onclick = function() {
+    document.getElementById("credits_page").style.display = "block";
 }
 
-document.getElementById("leave_credits_page").onclick = function(){
-    document.getElementById("credits_page").style.display ="none";
+document.getElementById("leave_credits_page").onclick = function() {
+    document.getElementById("credits_page").style.display = "none";
 }
 
 // slider and buttons for settings page
 
 var slider = document.getElementById("volume_selector");
 var output = document.getElementById("volume_value");
-document.getElementById("medium").style.border ="solid orange 5px";
+document.getElementById("medium").style.border = "solid orange 5px";
 
-output.innerHTML = slider.value; 
+output.innerHTML = slider.value;
 slider.oninput = function() {
-  output.innerHTML = this.value;
-} 
-
-document.getElementById("easy").onclick = function(){
-    document.getElementById("easy").style.border ="solid green 5px";
-    document.getElementById("medium").style.border ="";
-    document.getElementById("hard").style.border ="";
+    output.innerHTML = this.value;
 }
 
-document.getElementById("medium").onclick = function(){
-    document.getElementById("medium").style.border ="solid orange 5px";
-    document.getElementById("easy").style.border ="";
-    document.getElementById("hard").style.border ="";
+document.getElementById("easy").onclick = function() {
+    document.getElementById("easy").style.border = "solid green 5px";
+    document.getElementById("medium").style.border = "";
+    document.getElementById("hard").style.border = "";
 }
 
-document.getElementById("hard").onclick = function(){
-    document.getElementById("hard").style.border ="solid red 5px";
-    document.getElementById("easy").style.border ="";
-    document.getElementById("medium").style.border ="";
+document.getElementById("medium").onclick = function() {
+    document.getElementById("medium").style.border = "solid orange 5px";
+    document.getElementById("easy").style.border = "";
+    document.getElementById("hard").style.border = "";
 }
 
-document.getElementById("leave_settings_page").onclick = function(){
+document.getElementById("hard").onclick = function() {
+    document.getElementById("hard").style.border = "solid red 5px";
+    document.getElementById("easy").style.border = "";
+    document.getElementById("medium").style.border = "";
+}
+
+document.getElementById("leave_settings_page").onclick = function() {
     document.getElementById("settings_page").style.display = 'none'
 }
 
-document.getElementById("settings").onclick = function(){
+document.getElementById("settings").onclick = function() {
     document.getElementById("settings_page").style.display = 'block'
 }
 
 //////////////////////THEME SELECTOR MEN/////////////////////////////////
 
+document.getElementById("theme_dark").style.border = "solid green 5px";
 
-document.getElementById("theme_dark").style.border ="solid green 5px";
-
-document.getElementById("theme_dark").onclick = function(){
-    document.getElementById("theme_dark").style.border ="solid green 5px";
-    document.getElementById("theme_light").style.border ="";
-    document.body.style.background = "rgb(63, 62, 62)";
+document.getElementById("theme_dark").onclick = function() { // Dark Theme
+    colors = [
+        "rgb(27, 27, 61)", //Primary color
+        "rgb(49, 49, 107)", //Secondary color
+        "rgb(8, 0, 47)", //Border color
+        "rgb(63, 62, 62)" //Background color
+    ]
+    document.getElementById("theme_dark").style.border = "solid green 5px";
+    document.getElementById("theme_light").style.border = "";
+    paintPage()
 }
 
-document.getElementById("theme_light").onclick = function(){
-    document.getElementById("theme_light").style.border ="solid green 5px";
-    document.getElementById("theme_dark").style.border ="";
-    document.body.style.background = "white";
-
+document.getElementById("theme_light").onclick = function() { // Light theme
+    colors = [
+        "#86b3fc", //Primary color
+        "#bfd8ff", //Secondary color
+        "#2c4bd4", //Border color
+        "#c2d2ff" //Background color
+    ]
+    document.getElementById("theme_light").style.border = "solid green 5px";
+    document.getElementById("theme_dark").style.border = "";
+    paintPage()
 }
 
+function paintPage() {
+    document.body.style.background = colors[3];
+    document.getElementById("menu_content").style.backgroundColor = colors[0];
+    document.getElementById("stage").style.border = "5px solid " + colors[2];
+    document.getElementById("gameStats").style.border = "5px solid " + colors[2];
+    document.getElementById("gameStats").style.borderBottom = "none"
+    document.getElementById("controls").style.borderTop = "5px solid " + colors[2];
+    document.getElementById("settings_page").style.backgroundColor = colors[0];
+    document.getElementById("gameStats").style.backgroundColor = colors[0];
+    document.getElementById("columns").style.backgroundColor = colors[1];
+    document.getElementById("credits_page").style.backgroundColor = colors[0];
+    for (i = 0; i < boxes.length; i++) {
+        boxes[i].style.backgroundColor = colors[0];
+        boxes[i].style.borderRight = "5px solid " + colors[2];
+    }
+    boxes[boxes.length - 1].style.borderRight = "none"
+}
 
-window.onbeforeunload = function(){
-     return 'Are you sure you want to leave?';
+window.onbeforeunload = function() {
+    return 'Are you sure you want to leave?';
 };
