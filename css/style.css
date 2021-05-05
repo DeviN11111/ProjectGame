@@ -23,7 +23,7 @@ body {
     height: 800px;
     border: 5px solid rgb(8, 0, 47);
     position: relative;
-    background: rgb(27, 27, 61);
+    background: rgb(49, 49, 107);
     color: white;
 }
 
@@ -410,3 +410,108 @@ body {
 
 
 /*//////////////////////////////////////////////////////////////////*/
+
+/*////////////////////////styling of settings page//////////////////////////////////////////*/
+
+#settings_page{
+    display: none;
+    top: 0;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: rgb(27, 27, 61);
+    text-align: center;
+    line-height: 35px;
+    font-family: 'Rajdhani', sans-serif;
+}
+
+#settings_page h1{
+    margin-top: 50px;
+    font-size: 56px;
+}
+
+#settings_page p{
+    font-size: 25px;
+}
+
+.slider {
+    -webkit-appearance: none;
+    width: 200px;
+    height: 10px;
+    border-radius: 5px;  
+    background: rgb(4, 4, 12);
+  }
+  
+  .slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%; 
+    background: rgb(52, 52, 119);
+    cursor: pointer;
+  }
+  
+  .slider::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: rgb(61, 61, 139);
+    cursor: pointer;
+  }
+
+.slidecontainer{
+    margin-top: 50px;
+}
+.modeselect{
+    margin-top: 50px;
+    width: 100%;
+}
+
+.modes{
+    margin-top: 30px;
+}
+.modes a{
+    background: black;
+    border-radius: 20px;
+    padding: 20px;  
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+#easy{
+    background: rgb(25, 114, 25);
+}
+
+#medium{
+    background: rgb(199, 137, 23);
+}
+
+#hard{
+    background: rgb(149, 36, 36);
+}
+
+.themeselector{
+    margin-top: 60px;
+    width: 100%;
+}
+
+.themeselector p{
+    margin-bottom: 30px;
+}
+.themeselector a{
+    background: black;
+    border-radius: 20px;
+    padding: 20px;  
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+#theme_light{
+    background: rgb(165, 159, 159);
+}
+
+#theme_dark{
+    background: rgb(19, 18, 18);
+
+}

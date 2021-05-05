@@ -239,6 +239,9 @@ document.getElementById("survival").onclick = function(){
     document.getElementById("gameStats").style.visibility = "visible"
     reloadGame()
 }
+
+
+// buttons for credits page
 document.getElementById("credits").onclick = function(){
     document.getElementById("credits_page").style.display ="block";
 }
@@ -247,7 +250,62 @@ document.getElementById("leave_credits_page").onclick = function(){
     document.getElementById("credits_page").style.display ="none";
 }
 
+// slider and buttons for settings page
+
+var slider = document.getElementById("volume_selector");
+var output = document.getElementById("volume_value");
+document.getElementById("medium").style.border ="solid orange 5px";
+
+output.innerHTML = slider.value; 
+slider.oninput = function() {
+  output.innerHTML = this.value;
+} 
+
+document.getElementById("easy").onclick = function(){
+    document.getElementById("easy").style.border ="solid green 5px";
+    document.getElementById("medium").style.border ="";
+    document.getElementById("hard").style.border ="";
+}
+
+document.getElementById("medium").onclick = function(){
+    document.getElementById("medium").style.border ="solid orange 5px";
+    document.getElementById("easy").style.border ="";
+    document.getElementById("hard").style.border ="";
+}
+
+document.getElementById("hard").onclick = function(){
+    document.getElementById("hard").style.border ="solid red 5px";
+    document.getElementById("easy").style.border ="";
+    document.getElementById("medium").style.border ="";
+}
+
+document.getElementById("leave_settings_page").onclick = function(){
+    document.getElementById("settings_page").style.display = 'none'
+}
+
+document.getElementById("settings").onclick = function(){
+    document.getElementById("settings_page").style.display = 'block'
+}
+
+//////////////////////THEME SELECTOR MEN/////////////////////////////////
+
+
+document.getElementById("theme_dark").style.border ="solid green 5px";
+
+document.getElementById("theme_dark").onclick = function(){
+    document.getElementById("theme_dark").style.border ="solid green 5px";
+    document.getElementById("theme_light").style.border ="";
+    document.body.style.background = "rgb(63, 62, 62)";
+}
+
+document.getElementById("theme_light").onclick = function(){
+    document.getElementById("theme_light").style.border ="solid green 5px";
+    document.getElementById("theme_dark").style.border ="";
+    document.body.style.background = "white";
+
+}
+
 
 window.onbeforeunload = function(){
-    return 'Are you sure you want to leave?';
-  };
+     return 'Are you sure you want to leave?';
+};
