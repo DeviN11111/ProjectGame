@@ -259,9 +259,15 @@ var slider = document.getElementById("volume_selector");
 var output = document.getElementById("volume_value");
 document.getElementById("medium").style.border = "solid orange 5px";
 
-output.innerHTML = slider.value;
+output.innerHTML = slider.value + '%';
 slider.oninput = function() {
-    output.innerHTML = this.value;
+    output.innerHTML = this.value + "%";
+    document.getElementById("gameOverSound").volume = (this.value / 100)
+    document.getElementById("hitSound").volume = (this.value / 100)
+    document.getElementById("missSound").volume = (this.value / 100)
+    if(this.value == 0){
+        output.innerHTML = "Off"
+    }
 }
 
 document.getElementById("easy").onclick = function() {
@@ -284,6 +290,10 @@ document.getElementById("hard").onclick = function() {
 
 document.getElementById("leave_settings_page").onclick = function() {
     document.getElementById("settings_page").style.display = 'none'
+    document.removeEventListener("keypress", keyFunction)
+    for(i=0; i < 4; i++){
+        document.getElementById("keyBind" + (i + 1)).style.border = "solid gray 5px"
+      }
 }
 
 document.getElementById("settings").onclick = function() {
@@ -335,6 +345,41 @@ function paintPage() {
     }
     boxes[boxes.length - 1].style.borderRight = "none"
 }
+
+
+//////////////////////KEYBIND SELECTOR MEN/////////////////////////////////
+
+
+var columnKey;
+var keyFunction = function(e){
+    if(keys.includes(e.keyCode)){ 
+        columnKey.style.border = "solid red 5px"
+        setTimeout(function(){
+            columnKey.style.border = "solid gray 5px"
+        },500)
+       
+    }else{
+        columnKey.innerHTML = e.key
+        keys[columnKey.id[7] - 1] = e.keyCode;
+        document.getElementById("box" + columnKey.id[7]).innerHTML = e.key;
+        columnKey.style.border = ""
+    }
+    document.removeEventListener("keypress", keyFunction) 
+}
+
+for(i=0; i < 4; i++){
+    document.getElementById("keyBind" + (i + 1)).onclick = function(){
+      document.addEventListener("keypress", keyFunction)
+      columnKey = this
+      for(i=0; i < 4; i++){
+          document.getElementById("keyBind" + (i + 1)).style.border = "solid gray 5px"
+        }
+      columnKey.style.border = "solid green 5px"
+      
+    }
+}
+
+
 
 window.onbeforeunload = function() {
     return 'Are you sure you want to leave?';
