@@ -313,6 +313,7 @@ document.getElementById("theme_dark").onclick = function() { // Dark Theme
         "rgb(8, 0, 47)", //Border color
         "rgb(63, 62, 62)" //Background color
     ]
+    document.getElementById("credits_page").className = "scrollbar scrl_dark"
     document.getElementById("theme_dark").style.border = "solid green 5px";
     document.getElementById("theme_light").style.border = "";
     paintPage()
@@ -325,6 +326,7 @@ document.getElementById("theme_light").onclick = function() { // Light theme
         "#2c4bd4", //Border color
         "#c2d2ff" //Background color
     ]
+    document.getElementById("credits_page").className = "scrollbar scrl_light"
     document.getElementById("theme_light").style.border = "solid green 5px";
     document.getElementById("theme_dark").style.border = "";
     paintPage()
@@ -389,7 +391,6 @@ for (i = 0; i < 4; i++) {
         event.stopPropagation()
     }
 }
-
 // window.onbeforeunload = function() {
 //     return 'Are you sure you want to leave?';
 // }
