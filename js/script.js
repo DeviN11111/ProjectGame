@@ -265,7 +265,7 @@ slider.oninput = function() {
     document.getElementById("gameOverSound").volume = (this.value / 100)
     document.getElementById("hitSound").volume = (this.value / 100)
     document.getElementById("missSound").volume = (this.value / 100)
-    if(this.value == 0){
+    if (this.value == 0) {
         output.innerHTML = "Off"
     }
 }
@@ -291,9 +291,9 @@ document.getElementById("hard").onclick = function() {
 document.getElementById("leave_settings_page").onclick = function() {
     document.getElementById("settings_page").style.display = 'none'
     document.removeEventListener("keypress", keyFunction)
-    for(i=0; i < 4; i++){
+    for (i = 0; i < 4; i++) {
         document.getElementById("keyBind" + (i + 1)).style.border = "solid gray 5px"
-      }
+    }
 }
 
 document.getElementById("settings").onclick = function() {
@@ -351,35 +351,39 @@ function paintPage() {
 
 
 var columnKey;
-var keyFunction = function(e){
-    if(keys.includes(e.keyCode)){ 
-        columnKey.style.border = "solid red 5px"
-        setTimeout(function(){
-            columnKey.style.border = "solid gray 5px"
-        },500)
-       
-    }else{
+var keyFunction = function(e) {
+    if (!keys.includes(e.keyCode)) {
         columnKey.innerHTML = e.key
-        keys[columnKey.id[7] - 1] = e.keyCode;
-        document.getElementById("box" + columnKey.id[7]).innerHTML = e.key;
-        columnKey.style.border = ""
-    }
-    document.removeEventListener("keypress", keyFunction) 
-}
-
-for(i=0; i < 4; i++){
-    document.getElementById("keyBind" + (i + 1)).onclick = function(){
-      document.addEventListener("keypress", keyFunction)
-      columnKey = this
-      for(i=0; i < 4; i++){
-          document.getElementById("keyBind" + (i + 1)).style.border = "solid gray 5px"
+        keys[columnKey.dataset.number - 1] = e.keyCode;
+        document.getElementById("box" + columnKey.dataset.number).innerHTML = e.key;
+        columnKey.style.border = "solid green 5px"
+        setTimeout(function() {
+            document.getElementById("keyBind" + (keys.indexOf(e.keyCode) + 1)).style.border = "solid gray 5px"
+        }, 500)
+    } else {
+        columnKey.style.border = "solid gray 5px"
+        if (keys[columnKey.dataset.number - 1] == e.keyCode) {
+            document.getElementById("keyBind" + (keys.indexOf(e.keyCode) + 1)).style.border = "solid gray 5px"
+        } else {
+            document.getElementById("keyBind" + (keys.indexOf(e.keyCode) + 1)).style.border = "solid red 5px"
+            setTimeout(function() {
+                document.getElementById("keyBind" + (keys.indexOf(e.keyCode) + 1)).style.border = "solid gray 5px"
+            }, 500)
         }
-      columnKey.style.border = "solid green 5px"
-      
     }
+    document.removeEventListener("keypress", keyFunction)
 }
 
-
+for (i = 0; i < 4; i++) {
+    document.getElementById("keyBind" + (i + 1)).onclick = function() {
+        columnKey = this
+        for (i = 0; i < 4; i++) {
+            document.getElementById("keyBind" + (i + 1)).style.border = "solid gray 5px"
+        }
+        columnKey.style.border = "solid #363636 5px"
+        document.addEventListener("keypress", keyFunction)
+    }
+}
 
 window.onbeforeunload = function() {
     return 'Are you sure you want to leave?';
