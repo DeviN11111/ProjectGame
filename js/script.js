@@ -341,6 +341,9 @@ function paintPage() {
     document.getElementById("gameStats").style.backgroundColor = colors[0];
     document.getElementById("columns").style.backgroundColor = colors[1];
     document.getElementById("credits_page").style.backgroundColor = colors[0];
+    for (i = 0; i < document.getElementById("credits_authors").children.length; i++) {
+        document.getElementById("credits_authors").children[i].style.border = "solid " + colors[2];
+    }
     for (i = 0; i < boxes.length; i++) {
         boxes[i].style.backgroundColor = colors[0];
         boxes[i].style.borderRight = "5px solid " + colors[2];
@@ -387,6 +390,6 @@ for (i = 0; i < 4; i++) {
     }
 }
 
-window.onbeforeunload = function() {
-    return 'Are you sure you want to leave?';
-}
+// window.onbeforeunload = function() {
+//     return 'Are you sure you want to leave?';
+// }
