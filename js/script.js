@@ -290,14 +290,16 @@ document.getElementById("hard").onclick = function() {
 
 document.getElementById("leave_settings_page").onclick = function() {
     document.getElementById("settings_page").style.display = 'none'
-    document.removeEventListener("keypress", keyFunction)
-    for (i = 0; i < 4; i++) {
-        document.getElementById("keyBind" + (i + 1)).style.border = "solid gray 5px"
-    }
 }
 
 document.getElementById("settings").onclick = function() {
     document.getElementById("settings_page").style.display = 'block'
+    document.getElementById("settings_page").onclick = function() {
+        document.removeEventListener("keypress", keyFunction)
+        for (i = 0; i < 4; i++) {
+            document.getElementById("keyBind" + (i + 1)).style.border = "solid gray 5px"
+        }
+    }
 }
 
 //////////////////////THEME SELECTOR MEN/////////////////////////////////
@@ -349,7 +351,6 @@ function paintPage() {
 
 //////////////////////KEYBIND SELECTOR MEN/////////////////////////////////
 
-
 var columnKey;
 var keyFunction = function(e) {
     if (!keys.includes(e.keyCode)) {
@@ -373,18 +374,19 @@ var keyFunction = function(e) {
     }
     document.removeEventListener("keypress", keyFunction)
 }
-
+var kaas = 0;
 for (i = 0; i < 4; i++) {
-    document.getElementById("keyBind" + (i + 1)).onclick = function() {
+    document.getElementById("keyBind" + (i + 1)).onclick = function(event) {
         columnKey = this
         for (i = 0; i < 4; i++) {
             document.getElementById("keyBind" + (i + 1)).style.border = "solid gray 5px"
         }
         columnKey.style.border = "solid #363636 5px"
         document.addEventListener("keypress", keyFunction)
+        event.stopPropagation()
     }
 }
 
 window.onbeforeunload = function() {
     return 'Are you sure you want to leave?';
-};
+}
