@@ -175,11 +175,18 @@ body {
     left: 50%;
     top: -100px;
     transform: translateX(-50%);
-    background-color: red;
+    background-color: rgb(0, 162, 184);
     border-radius: 50%;
     transition: 100ms;
+    font-size: 54px;
+    color: rgb(255, 8, 8);
+    line-height: 100px;
+    text-align: center;
 }
 
+:is(#column1, #column2, #column3, #column4) div i{
+    padding-top: 26px;
+}
 
 /*//////////////////////////////////////////////////////////////////*/
 
@@ -429,7 +436,7 @@ body {
     border-radius: 20px;
     display: inline-block;
     margin-left: 10px;
-    margin-top: 30px;
+    margin-bottom: 30px;
     padding: 10px;
     text-align: right;
 }
@@ -452,6 +459,7 @@ body {
     font-size: 25px;
     margin-left: 10px;
     margin-top: 10px;
+    cursor: pointer;
 }
 
 .fa-backspace {
@@ -599,3 +607,5 @@ body {
     text-transform: uppercase;
     border: solid 5px gray;
 }
+
+

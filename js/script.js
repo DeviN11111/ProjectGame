@@ -44,16 +44,24 @@ var missSound = document.getElementById("missSound");
 
 var gameOverSound = document.getElementById("gameOverSound");
 
+var lifeGainSound = document.getElementById("lifeGainSound")
+
 var countDownSEC = 3
 
 var totalTimeSEC = 1;
 var totalTimeMIN = 0;
 
-
 document.addEventListener("keypress", function(e) {
     if (e.keyCode == keys[0] || e.keyCode == keys[1] || e.keyCode == keys[2] || e.keyCode == keys[3]) {
         if (gameEnd == false && countDownSEC == -1) {
             if (e.keyCode == checkFirst().key) {
+                if(checkFirst().lifeBall == true){
+                    hearts[lives].className = "fas fa-heart"
+                    lifeGainSound.pause();
+                    lifeGainSound.currentTime = 0;
+                    lifeGainSound.play()
+                    lives++
+                }
                 clearInterval(intervals[checkFirst().index])
                 document.getElementById(checkFirst().id).remove()
                 boxes[checkFirst().column].style.backgroundColor = "green";
@@ -63,7 +71,7 @@ document.addEventListener("keypress", function(e) {
                 }, 200)
                 targets[checkFirst().index].active = false
                 if (checkFirst() != "none") {
-                    document.getElementById(checkFirst().id).style.backgroundColor = "green";
+                    document.getElementById(checkFirst().id).style.backgroundColor = "rgb(161, 255, 148)";
                 }
                 score++
                 document.getElementById("LIVE_score_text").innerHTML = "Score : " + score;
@@ -117,7 +125,8 @@ function makeTarget() {
         "speed": 100,
         "active": true,
         "column": randomNumber,
-        "key": keys[randomNumber]
+        "key": keys[randomNumber],
+        "lifeBall": false
     }
     targets.push(obj)
 
@@ -125,11 +134,11 @@ function makeTarget() {
 
     columns[randomNumber].appendChild(createTarget);
 
-    document.getElementById(checkFirst().id).style.backgroundColor = "green"
+    document.getElementById(checkFirst().id).style.backgroundColor = "rgb(161, 255, 148)"
 
     targets[currentTarget].moveTarget();
-}
-
+    lifeBallCreate(currentTarget);
+}  
 function spawnTargets() {
     var randomNumber = Math.floor(Math.random() * spawnSpeeds.length);
     spawnTimeout = setTimeout(function() {
@@ -138,6 +147,16 @@ function spawnTargets() {
     }, spawnSpeeds[randomNumber])
 }
 
+function lifeBallCreate(targetName){
+        var randomLifeChance = Math.floor(Math.random() * 10)
+        console.log(randomLifeChance)
+        if(randomLifeChance == 0 && lives < 3){
+            document.getElementById(targets[targetName].id).innerHTML = "<i class='fas fa-heart'></i>"
+            targets[targetName].lifeBall = true;
+        }else{
+            targets[targetName].lifeBall = false;
+        }
+}
 function checkFirst() {
     var activeTargets = []
     for (i = 0; i < targets.length; i++) {
@@ -265,8 +284,9 @@ slider.oninput = function() {
     document.getElementById("gameOverSound").volume = (this.value / 100)
     document.getElementById("hitSound").volume = (this.value / 100)
     document.getElementById("missSound").volume = (this.value / 100)
+    document.getElementById("lifeGainSound").volume = (this.value / 100)
     if (this.value == 0) {
-        output.innerHTML = "Off"
+        output.innerHTML = "<i class='fas fa-volume-mute'></i>"
     }
 }
 
@@ -379,7 +399,7 @@ var keyFunction = function(e) {
     }
     document.removeEventListener("keypress", keyFunction)
 }
-var kaas = 0;
+
 for (i = 0; i < 4; i++) {
     document.getElementById("keyBind" + (i + 1)).onclick = function(event) {
         columnKey = this
@@ -391,6 +411,3 @@ for (i = 0; i < 4; i++) {
         event.stopPropagation()
     }
 }
-// window.onbeforeunload = function() {
-//     return 'Are you sure you want to leave?';
-// }
