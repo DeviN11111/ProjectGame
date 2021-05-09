@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <p>Elapsed time: <span id="time">0</span>s</p>
+    <iframe width="560" height="315" src="https://www.youtube.com/embed/S_LN05Hiefg" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    <script>
+        function timertieMen() {
+            class Timer {
+                constructor() {
+                    this.isRunning = false;
+                    this.startTime = 0;
+                    this.overallTime = 0;
+                }
+
+                _getTimeElapsedSinceLastStart() {
+                    if (!this.startTime) {
+                        return 0;
+                    }
+
+                    return Date.now() - this.startTime;
+                }
+
+                start() {
+                    if (this.isRunning) {
+                        return console.error('Timer is already running');
+                    }
+
+                    this.isRunning = true;
+
+                    this.startTime = Date.now();
+                }
+
+                stop() {
+                    if (!this.isRunning) {
+                        return console.error('Timer is already stopped');
+                    }
+
+                    this.isRunning = false;
+
+                    this.overallTime = this.overallTime + this._getTimeElapsedSinceLastStart();
+                }
+
+                reset() {
+                    this.overallTime = 0;
+
+                    if (this.isRunning) {
+                        this.startTime = Date.now();
+                        return;
+                    }
+
+                    this.startTime = 0;
+                }
+
+                getTime() {
+                    if (!this.startTime) {
+                        return 0;
+                    }
+
+                    if (this.isRunning) {
+                        return this.overallTime + this._getTimeElapsedSinceLastStart();
+                    }
+
+                    return this.overallTime;
+                }
+            }
+
+            const timer = new Timer();
+            timer.start();
+            setInterval(() => {
+                timeInMS = Math.round(timer.getTime() / 1);
+                document.getElementById('time').innerText = timeInMS;
+
+            }, 100)
+        }
+
+        var timeInMS;
+        var firstPress = true;
+        var timeStampsNofilter = [];
+        var timeStampsfilter = [];
+
+        document.addEventListener("keypress", function(e) {
+            if (e.code == "Space") {
+                timeStampsNofilter.push(timeInMS)
+                console.log(timeStampsNofilter)
+            }
+            if (e.code == "KeyR") {
+                filterStamps();
+                console.log(timeStampsfilter)
+            }
+        })
+        document.onclick = function() {
+            if (firstPress == true) {
+                timertieMen();
+                firstPress = false
+            }
+        }
+
+        function filterStamps() {
+            timeStampsfilter.push(timeStampsNofilter[0])
+            for (i = 0; i < timeStampsNofilter.length - 1; i++) {
+                timeStampsfilter.push(timeStampsNofilter[i + 1] - timeStampsNofilter[i])
+            }
+        }
+    </script>
+</body>
+
+</html>
