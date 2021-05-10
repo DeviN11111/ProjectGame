@@ -15,12 +15,26 @@ var hearts = [
     document.getElementById("heart2"),
     document.getElementById("heart3")
 ]
-
-var colors = [
-    "rgb(27, 27, 61)" // Default color
+var themeBtns = [
+    document.getElementById("theme_dark"),
+    document.getElementById("theme_light")
 ]
+var themeColors = {
+    "dark": [
+        "rgb(27, 27, 61)", //Primary color
+        "rgb(49, 49, 107)", //Secondary color
+        "rgb(8, 0, 47)", //Border color
+        "rgb(63, 62, 62)" //Background color
+    ],
+    "light": [
+        "#86b3fc", //Primary color
+        "#bfd8ff", //Secondary color
+        "#2c4bd4", //Border color
+        "#c2d2ff" //Background color
+    ]
+}
 
-
+var theme = "dark"
 
 var currentTarget = -1;
 
@@ -71,6 +85,14 @@ document.body.onload = function() {
         if (localStorage.getItem("bestScore_local") != null) {
             bestScore = localStorage.getItem("bestScore_local")
         }
+        if (localStorage.getItem("theme") != null) {
+            for (i = 0; i < themeBtns.length; i++) {
+                themeBtns[i].style.border = "none";
+            }
+            theme = localStorage.getItem("theme");
+            document.getElementById("theme_" + theme).style.border = "solid green 5px"
+            paintPage(theme)
+        }
     }
     ////////////////////////////////////////////////////
 
@@ -90,7 +112,7 @@ document.addEventListener("keypress", function(e) {
                 boxes[checkFirst().column].style.backgroundColor = "green";
                 var temp = boxes[checkFirst().column]
                 setTimeout(function() {
-                    temp.style.backgroundColor = colors[0];
+                    temp.style.backgroundColor = themeColors[theme][0];
                 }, 200)
                 targets[checkFirst().index].active = false
                 if (checkFirst() != "none") {
@@ -104,7 +126,7 @@ document.addEventListener("keypress", function(e) {
             } else {
                 boxes[keys.indexOf(e.code)].style.backgroundColor = "red";
                 setTimeout(function() {
-                    boxes[keys.indexOf(e.code)].style.backgroundColor = colors[0];
+                    boxes[keys.indexOf(e.code)].style.backgroundColor = themeColors[theme][0];
                 }, 200)
                 loseLife()
             }
@@ -135,7 +157,7 @@ function makeTarget() {
                         boxes[trgt.column].style.backgroundColor = "red";
                         var temp = boxes[trgt.column]
                         setTimeout(function() {
-                            temp.style.backgroundColor = colors[0];
+                            temp.style.backgroundColor = themeColors[theme][0];
                         }, 200)
                         loseLife()
                     }
@@ -364,48 +386,40 @@ document.getElementById("settings").onclick = function() {
 document.getElementById("theme_dark").style.border = "solid green 5px";
 
 document.getElementById("theme_dark").onclick = function() { // Dark Theme
-    colors = [
-        "rgb(27, 27, 61)", //Primary color
-        "rgb(49, 49, 107)", //Secondary color
-        "rgb(8, 0, 47)", //Border color
-        "rgb(63, 62, 62)" //Background color
-    ]
     document.getElementById("credits_page").className = "scrollbar scrl_dark"
     document.getElementById("theme_dark").style.border = "solid green 5px";
     document.getElementById("theme_light").style.border = "";
-    paintPage()
+    localStorage.setItem("theme", "dark")
+    theme = localStorage.getItem("theme")
+    paintPage("dark")
 }
 
 document.getElementById("theme_light").onclick = function() { // Light theme
-    colors = [
-        "#86b3fc", //Primary color
-        "#bfd8ff", //Secondary color
-        "#2c4bd4", //Border color
-        "#c2d2ff" //Background color
-    ]
     document.getElementById("credits_page").className = "scrollbar scrl_light"
     document.getElementById("theme_light").style.border = "solid green 5px";
     document.getElementById("theme_dark").style.border = "";
-    paintPage()
+    localStorage.setItem("theme", "light")
+    theme = localStorage.getItem("theme")
+    paintPage("light")
 }
 
-function paintPage() {
-    document.body.style.background = colors[3];
-    document.getElementById("menu_content").style.backgroundColor = colors[0];
-    document.getElementById("stage").style.border = "5px solid " + colors[2];
-    document.getElementById("gameStats").style.border = "5px solid " + colors[2];
+function paintPage(theme) {
+    document.body.style.background = themeColors[theme][3];
+    document.getElementById("menu_content").style.backgroundColor = themeColors[theme][0];
+    document.getElementById("stage").style.border = "5px solid " + themeColors[theme][2];
+    document.getElementById("gameStats").style.border = "5px solid " + themeColors[theme][2];
     document.getElementById("gameStats").style.borderBottom = "none"
-    document.getElementById("controls").style.borderTop = "5px solid " + colors[2];
-    document.getElementById("settings_page").style.backgroundColor = colors[0];
-    document.getElementById("gameStats").style.backgroundColor = colors[0];
-    document.getElementById("columns").style.backgroundColor = colors[1];
-    document.getElementById("credits_page").style.backgroundColor = colors[0];
+    document.getElementById("controls").style.borderTop = "5px solid " + themeColors[theme][2];
+    document.getElementById("settings_page").style.backgroundColor = themeColors[theme][0];
+    document.getElementById("gameStats").style.backgroundColor = themeColors[theme][0];
+    document.getElementById("columns").style.backgroundColor = themeColors[theme][1];
+    document.getElementById("credits_page").style.backgroundColor = themeColors[theme][0];
     for (i = 0; i < document.getElementById("credits_authors").children.length; i++) {
-        document.getElementById("credits_authors").children[i].style.border = "solid " + colors[2];
+        document.getElementById("credits_authors").children[i].style.border = "solid " + themeColors[theme][2];
     }
     for (i = 0; i < boxes.length; i++) {
-        boxes[i].style.backgroundColor = colors[0];
-        boxes[i].style.borderRight = "5px solid " + colors[2];
+        boxes[i].style.backgroundColor = themeColors[theme][0];
+        boxes[i].style.borderRight = "5px solid " + themeColors[theme][2];
     }
     boxes[boxes.length - 1].style.borderRight = "none"
 }
