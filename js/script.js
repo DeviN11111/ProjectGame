@@ -65,8 +65,8 @@ document.body.onload = function() {
             keys = keys.split(",")
         }
         for (i = 0; i < boxes.length; i++) {
-            boxes[i].innerHTML = keys[i][3]
-            document.getElementById("keyBind" + (i + 1)).innerHTML = keys[i][3]
+            boxes[i].innerHTML = keys[i][(keys[i].length - 1)]
+            document.getElementById("keyBind" + (i + 1)).innerHTML = keys[i][(keys[i].length - 1)]
         }
         if (localStorage.getItem("bestScore_local") != null) {
             bestScore = localStorage.getItem("bestScore_local")
@@ -214,7 +214,7 @@ function loseLife() {
         }
         document.getElementById("gameOver_content").style.display = "block"
         document.getElementById("score_text").innerHTML = "Score : " + score
-        document.getElementById("highscore_text").innerHTML = "Best : " + localStorage.getItem("bestScore_local");
+        document.getElementById("highscore_text").innerHTML = "Best : " + bestScore
         document.getElementById("Totaltime_text").innerHTML = "Time : " + totalTimeMIN + "m " + totalTimeSEC + "s"
         document.getElementById("gameStats").style.display = "none"
     }
