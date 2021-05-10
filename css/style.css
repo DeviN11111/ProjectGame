@@ -238,6 +238,10 @@ body {
     line-height: 100px;
 }
 
+#difficulty_text{
+    float: right;
+}
+
 .results_display {
     position: absolute;
     border: solid white 10px;

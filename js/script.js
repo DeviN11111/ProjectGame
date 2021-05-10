@@ -19,6 +19,9 @@ var hearts = [
 var colors = [
     "rgb(27, 27, 61)" // Default color
 ]
+
+
+
 var currentTarget = -1;
 
 var targets = []
@@ -30,6 +33,10 @@ var totalTimerInterval;
 var gameEnd = false
 
 var keys = [113, 119, 111, 112];
+
+var difficultySpeed = 75;
+
+var difficultyLifeBallChance = 75;
 
 var spawnSpeeds = [300];
 
@@ -50,6 +57,7 @@ var countDownSEC = 3
 
 var totalTimeSEC = 1;
 var totalTimeMIN = 0;
+
 
 document.addEventListener("keypress", function(e) {
     if (e.keyCode == keys[0] || e.keyCode == keys[1] || e.keyCode == keys[2] || e.keyCode == keys[3]) {
@@ -122,7 +130,7 @@ function makeTarget() {
                 }
             }, this.speed)
         },
-        "speed": 100,
+        "speed": difficultySpeed, 
         "active": true,
         "column": randomNumber,
         "key": keys[randomNumber],
@@ -148,8 +156,7 @@ function spawnTargets() {
 }
 
 function lifeBallCreate(targetName){
-        var randomLifeChance = Math.floor(Math.random() * 10)
-        console.log(randomLifeChance)
+        var randomLifeChance = Math.floor(Math.random() * difficultyLifeBallChance)
         if(randomLifeChance == 0 && lives < 3){
             document.getElementById(targets[targetName].id).innerHTML = "<i class='fas fa-heart'></i>"
             targets[targetName].lifeBall = true;
@@ -294,18 +301,30 @@ document.getElementById("easy").onclick = function() {
     document.getElementById("easy").style.border = "solid green 5px";
     document.getElementById("medium").style.border = "";
     document.getElementById("hard").style.border = "";
+    difficultySpeed = 100;
+    spawnSpeeds = [500];
+    document.getElementById("difficulty_text").innerHTML = "Difficulty : Easy"
+    difficultyLifeBallChance = 50;
 }
 
 document.getElementById("medium").onclick = function() {
     document.getElementById("medium").style.border = "solid orange 5px";
     document.getElementById("easy").style.border = "";
     document.getElementById("hard").style.border = "";
+    difficultySpeed = 75;
+    spawnSpeeds = [300];
+    document.getElementById("difficulty_text").innerHTML = "Difficulty : Medium"
+    difficultyLifeBallChance = 75;
 }
 
 document.getElementById("hard").onclick = function() {
     document.getElementById("hard").style.border = "solid red 5px";
     document.getElementById("easy").style.border = "";
     document.getElementById("medium").style.border = "";
+    difficultySpeed = 40;
+    spawnSpeeds = [250];
+    document.getElementById("difficulty_text").innerHTML = "Difficulty : Hard"
+    difficultyLifeBallChance = 100;
 }
 
 document.getElementById("leave_settings_page").onclick = function() {
@@ -411,3 +430,4 @@ for (i = 0; i < 4; i++) {
         event.stopPropagation()
     }
 }
+
