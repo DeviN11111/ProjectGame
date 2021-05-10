@@ -58,6 +58,21 @@ var countDownSEC = 3
 var totalTimeSEC = 1;
 var totalTimeMIN = 0;
 
+// all local saved storage changes men ///////////////////
+document.body.onload = function() {
+        if (localStorage.getItem("keyBinds_local") != null) {
+            keys = localStorage.getItem("keyBinds_local");
+            keys = keys.split(",")
+        }
+        for (i = 0; i < boxes.length; i++) {
+            boxes[i].innerHTML = keys[i][3]
+            document.getElementById("keyBind" + (i + 1)).innerHTML = keys[i][3]
+        }
+        if (localStorage.getItem("bestScore_local") != null) {
+            bestScore = localStorage.getItem("bestScore_local")
+        }
+    }
+    ////////////////////////////////////////////////////
 
 document.addEventListener("keypress", function(e) {
     if (e.code == keys[0] || e.code == keys[1] || e.code == keys[2] || e.code == keys[3]) {
@@ -403,6 +418,7 @@ var keyFunction = function(e) {
     if (!keys.includes(e.code) && e.key != " " && e.key != "Enter") {
         columnKey.innerHTML = e.key
         keys[columnKey.dataset.number - 1] = e.code;
+        localStorage.setItem("keyBinds_local", keys)
         document.getElementById("box" + columnKey.dataset.number).innerHTML = e.key;
         columnKey.style.border = "solid green 5px"
         setTimeout(function() {
@@ -441,9 +457,3 @@ for (i = 0; i < 4; i++) {
         event.stopPropagation()
     }
 }
-
-// Store
-localStorage.setItem("lastname", kaas);
-localStorage.setItem("lastname1", kaas2);
-// Retrieve
-document.getElementById("result").innerHTML = localStorage.getItem("lastname")
