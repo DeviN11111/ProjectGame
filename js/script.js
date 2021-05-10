@@ -32,7 +32,7 @@ var totalTimerInterval;
 
 var gameEnd = false
 
-var keys = [113, 119, 111, 112];
+var keys = ["KeyQ", "KeyW", "KeyO", "KeyP"];
 
 var difficultySpeed = 75;
 
@@ -60,10 +60,10 @@ var totalTimeMIN = 0;
 
 
 document.addEventListener("keypress", function(e) {
-    if (e.keyCode == keys[0] || e.keyCode == keys[1] || e.keyCode == keys[2] || e.keyCode == keys[3]) {
+    if (e.code == keys[0] || e.code == keys[1] || e.code == keys[2] || e.code == keys[3]) {
         if (gameEnd == false && countDownSEC == -1) {
-            if (e.keyCode == checkFirst().key) {
-                if(checkFirst().lifeBall == true){
+            if (e.code == checkFirst().key) {
+                if (checkFirst().lifeBall == true) {
                     hearts[lives].className = "fas fa-heart"
                     lifeGainSound.pause();
                     lifeGainSound.currentTime = 0;
@@ -87,9 +87,9 @@ document.addEventListener("keypress", function(e) {
                 hitSound.currentTime = 0;
                 hitSound.play();
             } else {
-                boxes[keys.indexOf(e.keyCode)].style.backgroundColor = "red";
+                boxes[keys.indexOf(e.code)].style.backgroundColor = "red";
                 setTimeout(function() {
-                    boxes[keys.indexOf(e.keyCode)].style.backgroundColor = colors[0];
+                    boxes[keys.indexOf(e.code)].style.backgroundColor = colors[0];
                 }, 200)
                 loseLife()
             }
@@ -130,7 +130,7 @@ function makeTarget() {
                 }
             }, this.speed)
         },
-        "speed": difficultySpeed, 
+        "speed": difficultySpeed,
         "active": true,
         "column": randomNumber,
         "key": keys[randomNumber],
@@ -146,7 +146,8 @@ function makeTarget() {
 
     targets[currentTarget].moveTarget();
     lifeBallCreate(currentTarget);
-}  
+}
+
 function spawnTargets() {
     var randomNumber = Math.floor(Math.random() * spawnSpeeds.length);
     spawnTimeout = setTimeout(function() {
@@ -155,15 +156,16 @@ function spawnTargets() {
     }, spawnSpeeds[randomNumber])
 }
 
-function lifeBallCreate(targetName){
-        var randomLifeChance = Math.floor(Math.random() * difficultyLifeBallChance)
-        if(randomLifeChance == 0 && lives < 3){
-            document.getElementById(targets[targetName].id).innerHTML = "<i class='fas fa-heart'></i>"
-            targets[targetName].lifeBall = true;
-        }else{
-            targets[targetName].lifeBall = false;
-        }
+function lifeBallCreate(targetName) {
+    var randomLifeChance = Math.floor(Math.random() * difficultyLifeBallChance)
+    if (randomLifeChance == 0 && lives < 3) {
+        document.getElementById(targets[targetName].id).innerHTML = "<i class='fas fa-heart'></i>"
+        targets[targetName].lifeBall = true;
+    } else {
+        targets[targetName].lifeBall = false;
+    }
 }
+
 function checkFirst() {
     var activeTargets = []
     for (i = 0; i < targets.length; i++) {
@@ -192,11 +194,12 @@ function loseLife() {
         gameEnd = true;
         clearInterval(totalTimerInterval);
         if (score > bestScore) {
-            bestScore = score;
+            bestScore = score
+            localStorage.setItem("bestScore_local", bestScore);
         }
         document.getElementById("gameOver_content").style.display = "block"
         document.getElementById("score_text").innerHTML = "Score : " + score
-        document.getElementById("highscore_text").innerHTML = "Best : " + bestScore;
+        document.getElementById("highscore_text").innerHTML = "Best : " + localStorage.getItem("bestScore_local");
         document.getElementById("Totaltime_text").innerHTML = "Time : " + totalTimeMIN + "m " + totalTimeSEC + "s"
         document.getElementById("gameStats").style.display = "none"
     }
@@ -397,23 +400,31 @@ function paintPage() {
 
 var columnKey;
 var keyFunction = function(e) {
-    if (!keys.includes(e.keyCode)) {
+    if (!keys.includes(e.code) && e.key != " " && e.key != "Enter") {
         columnKey.innerHTML = e.key
-        keys[columnKey.dataset.number - 1] = e.keyCode;
+        keys[columnKey.dataset.number - 1] = e.code;
         document.getElementById("box" + columnKey.dataset.number).innerHTML = e.key;
         columnKey.style.border = "solid green 5px"
         setTimeout(function() {
-            document.getElementById("keyBind" + (keys.indexOf(e.keyCode) + 1)).style.border = "solid gray 5px"
+            document.getElementById("keyBind" + (keys.indexOf(e.code) + 1)).style.border = "solid gray 5px"
         }, 500)
     } else {
         columnKey.style.border = "solid gray 5px"
-        if (keys[columnKey.dataset.number - 1] == e.keyCode) {
-            document.getElementById("keyBind" + (keys.indexOf(e.keyCode) + 1)).style.border = "solid gray 5px"
+        if (keys[columnKey.dataset.number - 1] == e.code) {
+            document.getElementById("keyBind" + (keys.indexOf(e.code) + 1)).style.border = "solid gray 5px"
         } else {
-            document.getElementById("keyBind" + (keys.indexOf(e.keyCode) + 1)).style.border = "solid red 5px"
-            setTimeout(function() {
-                document.getElementById("keyBind" + (keys.indexOf(e.keyCode) + 1)).style.border = "solid gray 5px"
-            }, 500)
+            if (e.key == " " || e.key == "Enter") {
+                document.getElementById("keyBind" + columnKey.dataset.number).style.border = "solid red 5px"
+                setTimeout(function() {
+                    document.getElementById("keyBind" + columnKey.dataset.number).style.border = "solid gray 5px"
+                }, 500)
+            } else {
+                document.getElementById("keyBind" + (keys.indexOf(e.code) + 1)).style.border = "solid red 5px"
+                setTimeout(function() {
+                    document.getElementById("keyBind" + (keys.indexOf(e.code) + 1)).style.border = "solid gray 5px"
+                }, 500)
+            }
+
         }
     }
     document.removeEventListener("keypress", keyFunction)
@@ -431,3 +442,8 @@ for (i = 0; i < 4; i++) {
     }
 }
 
+// Store
+localStorage.setItem("lastname", kaas);
+localStorage.setItem("lastname1", kaas2);
+// Retrieve
+document.getElementById("result").innerHTML = localStorage.getItem("lastname")

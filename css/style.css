@@ -239,10 +239,6 @@ body {
     line-height: 100px;
 }
 
-#difficulty_text {
-    float: right;
-}
-
 .results_display {
     position: absolute;
     border: solid white 10px;
@@ -258,16 +254,27 @@ body {
     font-family: 'Rajdhani', sans-serif;
 }
 
-.results_display p {
-    padding: 10px;
-}
-
-.results_display #level_text {
+#level_text {
     text-align: center;
+    padding-top: 10px;
+    margin-bottom: 12px;
 }
 
-.results_display p:nth-of-type(2) #Totaltime_text {
+.results_display div {
+    display: inline-block;
+}
+
+.results_display div:nth-of-type(1) {
+    float: left;
+}
+
+.results_display div:nth-of-type(2) {
     float: right;
+}
+
+.results_display div span {
+    padding: 8px 0;
+    display: block;
 }
 
 .gameOver_options {
