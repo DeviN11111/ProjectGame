@@ -184,9 +184,10 @@ body {
     text-align: center;
 }
 
-:is(#column1, #column2, #column3, #column4) div i{
+:is(#column1, #column2, #column3, #column4) div i {
     padding-top: 26px;
 }
+
 
 /*//////////////////////////////////////////////////////////////////*/
 
@@ -238,7 +239,7 @@ body {
     line-height: 100px;
 }
 
-#difficulty_text{
+#difficulty_text {
     float: right;
 }
 
@@ -284,9 +285,9 @@ body {
 
 .gameOver_options>div {
     display: inline-block;
-    width: 71px;
-    height: 71px;
-    line-height: 71px;
+    width: 78px;
+    height: 78px;
+    line-height: 78px;
     text-align: center;
 }
 
@@ -611,5 +612,3 @@ body {
     text-transform: uppercase;
     border: solid 5px gray;
 }
-
-
