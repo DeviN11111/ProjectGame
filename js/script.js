@@ -471,3 +471,11 @@ for (i = 0; i < 4; i++) {
         event.stopPropagation()
     }
 }
+//////////////////////////////// men shop page ///////////////////////////
+document.getElementById("leave_campaign_page").onclick = function() {
+    document.getElementById("campaign_page").style.display = "none";
+}
+
+document.getElementById("campaign").onclick = function() {
+    document.getElementById("campaign_page").style.display = "block";
+}
