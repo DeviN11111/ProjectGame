@@ -621,78 +621,81 @@ body {
     border: solid 5px gray;
 }
 
+
 /* ////////////////////////////////////////////////////////////////////// */
 
 
-/* /////////////////////////////STYLING OF SHOP PAGE //////////////////// */
+/* /////////////////////////////STYLING OF CAMPAIGN PAGE //////////////////// */
 
-#campaign_page{
-    display: none; 
+#campaign_page {
+    display: none;
     top: 0;
     position: absolute;
     width: 100%;
     height: 100%;
     background: rgb(27, 27, 61);
-    text-align: center;
-    line-height: 35px;
     font-family: 'Rajdhani', sans-serif;
     overflow-y: scroll;
 }
 
-.campaign_levels {
-    width: 100%;
-    margin: 0 auto;
-}
-
-.campaign_levels div{
-    position: relative;
-}
-
-.campaign_levels p{
-   font-size: 20px;
-   margin-top: 20px;
-}
-.campaign_levels > div{
-    background: rgb(19, 19, 49);
-    width: 70px;
-    height: 70px;
-    border: solid rgb(9, 7, 22) 5px;
-    border-radius: 20px;
-    margin: 20px;
-    float: left;
-    line-height: 70px;
-}
-
-.campaign_levels div i{
-    position: absolute;
-    color: rgb(100, 100, 100);
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 36px;
-}
-.campaign_levels div p{
-    margin: 0; 
-}
-.campaign_levels div h5{
-    color: gold;
-}
-.koopje2 {
+#campaign_page>h1 {
+    text-align: center;
     font-size: 54px;
     margin-top: 50px;
     margin-bottom: 50px;
 }
 
-.level_stars{
-    width: 100%;
-    height: 10px;
+.campaign_levels {
+    width: 411px;
     margin: 0 auto;
 }
 
-#gold{
-    text-align: center;
-    position: static;
-    line-height: 70px;
-    color: gold;
-    font-size: 18px;
+.campaign_levels>div {
+    position: relative;
+    display: inline-block;
+    background: rgb(19, 19, 49);
+    width: 70px;
+    height: 70px;
+    border: solid rgb(9, 7, 22) 5px;
+    border-radius: 20px;
+    margin: 0 10px;
+    margin-bottom: 14px;
+}
+
+.campaign_levels>div h1 {
+    position: absolute;
+    top: 6px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.campaign_levels>div .star {
+    color: rgb(1, 0, 48);
+    position: absolute;
+    bottom: 5px;
+}
+
+.campaign_levels>div .star:nth-of-type(1) {
+    left: 6px;
+    bottom: 10px;
+}
+
+.campaign_levels>div .star:nth-of-type(2) {
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.campaign_levels>div .star:nth-of-type(3) {
+    right: 6px;
+    bottom: 10px;
+    color: rgb(1, 0, 48);
+}
+
+.lock {
+    color: gray;
+    left: 50%;
+    top: 50%;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    font-size: 36px;
 }

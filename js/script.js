@@ -34,6 +34,11 @@ var themeColors = {
     ]
 }
 
+var kaas;
+var kaas2;
+
+var currentLevel;
+
 var theme = "dark"
 
 var currentTarget = -1;
@@ -134,13 +139,26 @@ document.addEventListener("keypress", function(e) {
     }
 })
 
-function makeTarget() {
+function loadLevel(level) {
+    currentLevel = level
+    spawnSpeeds = level["spawnSpeed"]
+    difficultySpeed = level["targetSpeed"]
 
+}
+
+function makeTarget() {
     var createTarget = document.createElement("div");
     currentTarget++
     createTarget.id = "target" + currentTarget;
 
-    var randomNumber = Math.floor(Math.random() * 4)
+    if (currentLevel == "survival") {
+        var randomNumber = Math.floor(Math.random() * 4)
+        kaas = randomNumber
+    } else {
+        console.log(currentLevel)
+        kaas = levels["level_1"]["targetColumn"][currentTarget]
+    }
+
 
     var obj = {
         "id": "target" + currentTarget,
@@ -167,17 +185,17 @@ function makeTarget() {
                 }
             }, this.speed)
         },
-        "speed": difficultySpeed,
+        "speed": difficultySpeed[currentTarget],
         "active": true,
-        "column": randomNumber,
-        "key": keys[randomNumber],
+        "column": kaas,
+        "key": keys[kaas],
         "lifeBall": false
     }
     targets.push(obj)
 
     createTarget.style.transition = "linear " + targets[currentTarget].speed + "ms"
 
-    columns[randomNumber].appendChild(createTarget);
+    columns[kaas].appendChild(createTarget);
 
     document.getElementById(checkFirst().id).style.backgroundColor = "rgb(161, 255, 148)"
 
@@ -186,11 +204,19 @@ function makeTarget() {
 }
 
 function spawnTargets() {
-    var randomNumber = Math.floor(Math.random() * spawnSpeeds.length);
-    spawnTimeout = setTimeout(function() {
-        makeTarget();
-        spawnTargets();
-    }, spawnSpeeds[randomNumber])
+    if (currentLevel == "survival") {
+        var randomNumber = Math.floor(Math.random() * spawnSpeeds.length);
+        kaas2 = randomNumber
+    } else {
+        kaas2 = currentTarget + 1
+    }
+    if (currentTarget != currentLevel["qtyTargets"] - 1) {
+        spawnTimeout = setTimeout(function() {
+            makeTarget();
+            spawnTargets();
+        }, spawnSpeeds[kaas2])
+    }
+
 }
 
 function lifeBallCreate(targetName) {
@@ -291,6 +317,8 @@ function reloadGame() {
     document.getElementById("countDown").style.display = "block"
     document.getElementById("gameOver_content").style.display = "none"
     document.getElementById("gameStats").style.display = "block"
+    document.getElementById("menu_content").style.display = "none"
+    document.getElementById("gameStats").style.visibility = "visible"
     countDownInterval = setInterval(countDownTimer, 1000)
 }
 
@@ -304,8 +332,7 @@ document.getElementById("home").onclick = function() {
 }
 
 document.getElementById("survival").onclick = function() {
-    document.getElementById("menu_content").style.display = "none"
-    document.getElementById("gameStats").style.visibility = "visible"
+    currentLevel = "survival"
     reloadGame()
 }
 
@@ -471,11 +498,23 @@ for (i = 0; i < 4; i++) {
         event.stopPropagation()
     }
 }
-//////////////////////////////// men shop page ///////////////////////////
+//////////////////////////////// campaign page ///////////////////////////
 document.getElementById("leave_campaign_page").onclick = function() {
     document.getElementById("campaign_page").style.display = "none";
 }
 
 document.getElementById("campaign").onclick = function() {
     document.getElementById("campaign_page").style.display = "block";
+    document.getElementById("campaign_page").style.display = "block";
+}
+
+
+
+
+document.getElementById("level_1_box").onclick = function(e) {
+    document.getElementById("campaign_page").style.display = "none";
+    reloadGame()
+    loadLevel(levels["level_1"])
+    console.log(currentLevel)
+
 }
