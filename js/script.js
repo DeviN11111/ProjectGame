@@ -34,9 +34,6 @@ var themeColors = {
     ]
 }
 
-var kaas;
-var kaas2;
-
 var currentLevel;
 
 var theme = "dark"
@@ -154,9 +151,11 @@ function makeTarget() {
     if (currentLevel == "survival") {
         var randomNumber = Math.floor(Math.random() * 4)
         kaas = randomNumber
+        kaas3 = difficultySpeed
     } else {
         console.log(currentLevel)
         kaas = levels["level_1"]["targetColumn"][currentTarget]
+        kaas3 = levels["level_1"]["targetSpeed"][currentTarget]
     }
 
 
@@ -185,7 +184,7 @@ function makeTarget() {
                 }
             }, this.speed)
         },
-        "speed": difficultySpeed[currentTarget],
+        "speed": kaas3, /////////////////////////////////////////////
         "active": true,
         "column": kaas,
         "key": keys[kaas],
