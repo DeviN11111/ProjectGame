@@ -125,6 +125,10 @@ document.addEventListener("keypress", function(e) {
                 hitSound.pause();
                 hitSound.currentTime = 0;
                 hitSound.play();
+                if(levels[currentLevel["levelName"]]["qtyTargets"] == score){
+                    gameFinished()
+                }
+                
             } else {
                 boxes[keys.indexOf(e.code)].style.backgroundColor = "red";
                 setTimeout(function() {
@@ -250,24 +254,41 @@ function loseLife() {
     missSound.play();
 
     if (lives == 0) {
-        gameOverSound.pause();
-        gameOverSound.currentTime = 0;
-        gameOverSound.play();
-        gameEnd = true;
-        clearInterval(totalTimerInterval);
-        if (score > bestScore) {
-            bestScore = score
-            localStorage.setItem("bestScore_local", bestScore);
-        }
-        document.getElementById("gameOver_content").style.display = "block"
-        document.getElementById("score_text").innerHTML = "Score : " + score
-        document.getElementById("highscore_text").innerHTML = "Best : " + bestScore
-        document.getElementById("Totaltime_text").innerHTML = "Time : " + totalTimeMIN + "m " + totalTimeSEC + "s"
-        document.getElementById("gameStats").style.display = "none"
+        gameOver()
     }
 
 }
 
+function gameFinished(){
+    gameEnd = true;
+    document.getElementById("gameVictory_content").style.display = "block"
+    clearInterval(totalTimerInterval);
+    if (score > bestScore) {
+        bestScore = score
+        localStorage.setItem("bestScore_local", bestScore);
+    }
+    document.getElementById("score_text").innerHTML = "Score : " + score
+    document.getElementById("highscore_text").innerHTML = "Best : " + bestScore
+    document.getElementById("Totaltime_text").innerHTML = "Time : " + totalTimeMIN + "m " + totalTimeSEC + "s"
+    document.getElementById("gameStats").style.display = "none"
+}
+
+function gameOver(){
+    gameOverSound.pause();
+    gameOverSound.currentTime = 0;
+    gameOverSound.play();
+    gameEnd = true;
+    clearInterval(totalTimerInterval);
+    if (score > bestScore) {
+        bestScore = score
+        localStorage.setItem("bestScore_local", bestScore);
+    }
+    document.getElementById("gameOver_content").style.display = "block"
+    document.getElementById("score_text").innerHTML = "Score : " + score
+    document.getElementById("highscore_text").innerHTML = "Best : " + bestScore
+    document.getElementById("Totaltime_text").innerHTML = "Time : " + totalTimeMIN + "m " + totalTimeSEC + "s"
+    document.getElementById("gameStats").style.display = "none"
+}
 
 function countDownTimer() {
     countDownSEC--
@@ -514,6 +535,14 @@ document.getElementById("level_1_box").onclick = function(e) {
     document.getElementById("campaign_page").style.display = "none";
     reloadGame()
     loadLevel(levels["level_1"])
+    console.log(currentLevel)
+
+}
+
+document.getElementById("level_2_box").onclick = function(e) {
+    document.getElementById("campaign_page").style.display = "none";
+    reloadGame()
+    loadLevel(levels["level_2"])
     console.log(currentLevel)
 
 }

@@ -194,6 +194,31 @@ body {
 
 /*/////////////// styling of game over screen ///////////////////////////////*/
 
+#gameVictory_content {
+    display: none; 
+    position: absolute;
+    top: 0;
+    background: black;
+    width: 100%;
+    height: 100%;
+    opacity: 0.9;
+    overflow: hidden;
+}
+
+#gameVictory_content h1 {
+    font-family: 'Rajdhani', sans-serif;
+    position: absolute;
+    color: white;
+    top: 20%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-transform: uppercase;
+    font-size: 120px;
+    text-align: center;
+    line-height: 100px;
+}
+
+
 #gameOver_content {
     display: none;
     position: absolute;
@@ -678,11 +703,13 @@ body {
 .campaign_levels>div .star:nth-of-type(1) {
     left: 6px;
     bottom: 10px;
+    color: gold;
 }
 
 .campaign_levels>div .star:nth-of-type(2) {
     left: 50%;
     transform: translateX(-50%);
+    color: gold; 
 }
 
 .campaign_levels>div .star:nth-of-type(3) {
