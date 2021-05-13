@@ -24,3 +24,7 @@ var levels = {
         "lifeTargets": [11, 16]
     }
 }
+
+// lastWaveBall eigenschap dat in de object zit van target is niet nodig.
+// waarom -2 op regel 256
+// speed undefined op targets die op laast wave zitten
