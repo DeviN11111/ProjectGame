@@ -19,6 +19,7 @@ var themeBtns = [
     document.getElementById("theme_dark"),
     document.getElementById("theme_light")
 ]
+
 var themeColors = {
     "dark": [
         "rgb(27, 27, 61)", //Primary color
@@ -61,6 +62,8 @@ var bestScore = 0;
 
 var lives = 3;
 
+var currentWave = 1;
+
 var hitSound = document.getElementById("hitSound");
 
 var missSound = document.getElementById("missSound");
@@ -95,6 +98,7 @@ document.body.onload = function() {
             document.getElementById("theme_" + theme).style.border = "solid green 5px"
             paintPage(theme)
         }
+        loadCampaign()
     }
     ////////////////////////////////////////////////////
 
@@ -108,6 +112,9 @@ document.addEventListener("keypress", function(e) {
                     lifeGainSound.currentTime = 0;
                     lifeGainSound.play()
                     lives++
+                }
+                if (checkFirst().lastBall == true) {
+                    gameFinished()
                 }
                 clearInterval(intervals[checkFirst().index])
                 document.getElementById(checkFirst().id).remove()
@@ -125,10 +132,8 @@ document.addEventListener("keypress", function(e) {
                 hitSound.pause();
                 hitSound.currentTime = 0;
                 hitSound.play();
-                if(levels[currentLevel["levelName"]]["qtyTargets"] == score){
-                    gameFinished()
-                }
-                
+
+
             } else {
                 boxes[keys.indexOf(e.code)].style.backgroundColor = "red";
                 setTimeout(function() {
@@ -140,7 +145,43 @@ document.addEventListener("keypress", function(e) {
     }
 })
 
+function loadCampaign() {
+
+    for (x in levels) {
+        var create_div = document.createElement("div")
+        create_div.id = "level_" + levels[x]["levelNumber"] + "_box"
+        create_div.setAttribute('data-levelnumber', levels[x]["levelNumber"])
+        var create_h1 = document.createElement("h1")
+
+        create_h1.innerHTML = levels[x]["levelNumber"]
+        create_div.appendChild(create_h1)
+
+        document.getElementById("campaign_levels").appendChild(create_div)
+
+        for (i = 0; i < 3; i++) {
+            var create_i = document.createElement("i")
+            create_i.className = "fas fa-star star"
+            create_i.id = "level_" + levels[x]["levelNumber"] + "star_" + (i + 1);
+            create_div.appendChild(create_i);
+        }
+        for (i = 0; i < levels[x]["stars"]; i++) {
+            document.getElementById("level_" + levels[x]["levelNumber"] + "star_" + (i + 1)).style.color = "gold"
+        }
+        if (levels[x]["locked"] == true) {
+            var create_i = document.createElement("i")
+            create_i.className = "fas fa-lock lock"
+            create_div.appendChild(create_i);
+        } else {
+            create_div.onclick = function() {
+                loadLevel(levels["level_" + this.dataset.levelnumber])
+            }
+        }
+
+    }
+}
+
 function loadLevel(level) {
+    reloadGame()
     currentLevel = level
     spawnSpeeds = level["spawnSpeed"]
     difficultySpeed = level["targetSpeed"]
@@ -157,9 +198,8 @@ function makeTarget() {
         kaas = randomNumber
         kaas3 = difficultySpeed
     } else {
-        console.log(currentLevel)
-        kaas = levels["level_1"]["targetColumn"][currentTarget]
-        kaas3 = levels["level_1"]["targetSpeed"][currentTarget]
+        kaas = levels["level_" + currentLevel["levelNumber"]]["targetColumn"][currentTarget]
+        kaas3 = levels["level_" + currentLevel["levelNumber"]]["targetSpeed"][currentWave - 1]
     }
 
 
@@ -181,18 +221,26 @@ function makeTarget() {
                             temp.style.backgroundColor = themeColors[theme][0];
                         }, 200)
                         loseLife()
+                        if (gameEnd == false) {
+                            if (trgt.lastBall == true) {
+                                gameFinished();
+                            }
+                        }
                     }
                     trgt.active = false;
                     document.getElementById(trgt.id).remove();
-
                 }
             }, this.speed)
         },
-        "speed": kaas3, /////////////////////////////////////////////
-        "active": true,
+        "inWave": currentWave,
+        "spawnSpeed": spawnSpeeds[kaas2],
         "column": kaas,
+        "speed": kaas3, /////////////////////////////////////////////
+        "lastWaveBall": false,
+        "active": true,
         "key": keys[kaas],
-        "lifeBall": false
+        "lifeBall": false,
+        "lastBall": false
     }
     targets.push(obj)
 
@@ -204,6 +252,15 @@ function makeTarget() {
 
     targets[currentTarget].moveTarget();
     lifeBallCreate(currentTarget);
+
+    if (levels["level_" + currentLevel["levelNumber"]]["waveEnd"][currentWave - 1] - 2 == currentTarget) {
+        targets[currentTarget].lastWaveBall = true;
+        nextWave()
+    }
+
+    if (currentTarget + 1 == levels["level_" + currentLevel["levelNumber"]]["qtyTargets"]) {
+        targets[currentTarget].lastBall = true;
+    }
 }
 
 function spawnTargets() {
@@ -218,6 +275,14 @@ function spawnTargets() {
             makeTarget();
             spawnTargets();
         }, spawnSpeeds[kaas2])
+    }
+
+}
+
+function nextWave() {
+    currentWave++
+    if (levels["level_" + currentLevel["levelNumber"]]["stars"] < 3) {
+        levels["level_" + currentLevel["levelNumber"]]["stars"]++
     }
 
 }
@@ -259,7 +324,7 @@ function loseLife() {
 
 }
 
-function gameFinished(){
+function gameFinished() {
     gameEnd = true;
     document.getElementById("gameVictory_content").style.display = "block"
     clearInterval(totalTimerInterval);
@@ -273,11 +338,11 @@ function gameFinished(){
     document.getElementById("gameStats").style.display = "none"
 }
 
-function gameOver(){
+function gameOver() {
+    gameEnd = true;
     gameOverSound.pause();
     gameOverSound.currentTime = 0;
     gameOverSound.play();
-    gameEnd = true;
     clearInterval(totalTimerInterval);
     if (score > bestScore) {
         bestScore = score
@@ -331,7 +396,9 @@ function reloadGame() {
     countDownSEC = 3;
     totalTimeSEC = 1;
     totalTimeMIN = 0;
+    currentWave = 1;
     gameEnd = false;
+    document.getElementById("campaign_page").style.display = "none";
     document.getElementById("LIVE_score_text").innerHTML = "Score : 0";
     document.getElementById("countDown_text").innerHTML = "3";
     document.getElementById("countDown").style.display = "block"
@@ -526,23 +593,4 @@ document.getElementById("leave_campaign_page").onclick = function() {
 document.getElementById("campaign").onclick = function() {
     document.getElementById("campaign_page").style.display = "block";
     document.getElementById("campaign_page").style.display = "block";
-}
-
-
-
-
-document.getElementById("level_1_box").onclick = function(e) {
-    document.getElementById("campaign_page").style.display = "none";
-    reloadGame()
-    loadLevel(levels["level_1"])
-    console.log(currentLevel)
-
-}
-
-document.getElementById("level_2_box").onclick = function(e) {
-    document.getElementById("campaign_page").style.display = "none";
-    reloadGame()
-    loadLevel(levels["level_2"])
-    console.log(currentLevel)
-
 }
