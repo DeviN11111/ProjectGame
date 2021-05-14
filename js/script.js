@@ -47,7 +47,8 @@ var intervals = [];
 var spawnTimeout;
 var totalTimerInterval;
 
-var gameEnd = false
+var gameEnd = false;
+var victory = false;
 
 var keys = ["KeyQ", "KeyW", "KeyO", "KeyP"];
 
@@ -105,6 +106,7 @@ document.body.onload = function() {
 document.addEventListener("keypress", function(e) {
     if (e.code == keys[0] || e.code == keys[1] || e.code == keys[2] || e.code == keys[3]) {
         if (gameEnd == false && countDownSEC == -1) {
+
             if (e.code == checkFirst().key) {
                 if (checkFirst().lifeBall == true) {
                     hearts[lives].className = "fas fa-heart"
@@ -113,6 +115,12 @@ document.addEventListener("keypress", function(e) {
                     lifeGainSound.play()
                     lives++
                 }
+                if (currentLevel != "survival") {
+                    if (checkFirst().index == levels["level_" + currentLevel["levelNumber"]]["waveEnd"][currentWave - 1] - 1) {
+                        nextWave();
+                    }
+                }
+                console.log(currentWave)
                 if (checkFirst().lastBall == true) {
                     gameFinished()
                 }
@@ -146,7 +154,7 @@ document.addEventListener("keypress", function(e) {
 })
 
 function loadCampaign() {
-
+    document.getElementById("campaign_levels").innerHTML = ""
     for (x in levels) {
         var create_div = document.createElement("div")
         create_div.id = "level_" + levels[x]["levelNumber"] + "_box"
@@ -222,6 +230,9 @@ function makeTarget() {
                         }, 200)
                         loseLife()
                         if (gameEnd == false) {
+                            if (trgt.index == levels["level_" + currentLevel["levelNumber"]]["waveEnd"][currentWave - 1] - 1) {
+                                nextWave();
+                            }
                             if (trgt.lastBall == true) {
                                 gameFinished();
                             }
@@ -236,7 +247,6 @@ function makeTarget() {
         "spawnSpeed": spawnSpeeds[kaas2],
         "column": kaas,
         "speed": kaas3, /////////////////////////////////////////////
-        "lastWaveBall": false,
         "active": true,
         "key": keys[kaas],
         "lifeBall": false,
@@ -253,10 +263,9 @@ function makeTarget() {
     targets[currentTarget].moveTarget();
     lifeBallCreate(currentTarget);
 
-    if (levels["level_" + currentLevel["levelNumber"]]["waveEnd"][currentWave - 1] - 2 == currentTarget) {
-        targets[currentTarget].lastWaveBall = true;
-        nextWave()
-    }
+    // if (levels["level_" + currentLevel["levelNumber"]]["waveEnd"][currentWave - 1] - 1 == currentTarget && gameEnd == false) {
+    //     nextWave()
+    // }
 
     if (currentTarget + 1 == levels["level_" + currentLevel["levelNumber"]]["qtyTargets"]) {
         targets[currentTarget].lastBall = true;
@@ -276,15 +285,10 @@ function spawnTargets() {
             spawnTargets();
         }, spawnSpeeds[kaas2])
     }
-
 }
 
 function nextWave() {
     currentWave++
-    if (levels["level_" + currentLevel["levelNumber"]]["stars"] < 3) {
-        levels["level_" + currentLevel["levelNumber"]]["stars"]++
-    }
-
 }
 
 function lifeBallCreate(targetName) {
@@ -326,7 +330,10 @@ function loseLife() {
 
 function gameFinished() {
     gameEnd = true;
+    victory = true;
+    giveStars()
     document.getElementById("gameVictory_content").style.display = "block"
+    clearTimeout(spawnTimeout)
     clearInterval(totalTimerInterval);
     if (score > bestScore) {
         bestScore = score
@@ -340,6 +347,7 @@ function gameFinished() {
 
 function gameOver() {
     gameEnd = true;
+    giveStars()
     gameOverSound.pause();
     gameOverSound.currentTime = 0;
     gameOverSound.play();
@@ -353,6 +361,15 @@ function gameOver() {
     document.getElementById("highscore_text").innerHTML = "Best : " + bestScore
     document.getElementById("Totaltime_text").innerHTML = "Time : " + totalTimeMIN + "m " + totalTimeSEC + "s"
     document.getElementById("gameStats").style.display = "none"
+}
+
+function giveStars() {
+    for (i = 0; i < currentWave - 1; i++) {
+        levels["level_" + currentLevel["levelNumber"]]["stars"]++
+    }
+    if (currentWave == 3 && victory == true) {
+        levels["level_" + currentLevel["levelNumber"]]["stars"]++
+    }
 }
 
 function countDownTimer() {
@@ -398,6 +415,7 @@ function reloadGame() {
     totalTimeMIN = 0;
     currentWave = 1;
     gameEnd = false;
+    victory = false;
     document.getElementById("campaign_page").style.display = "none";
     document.getElementById("LIVE_score_text").innerHTML = "Score : 0";
     document.getElementById("countDown_text").innerHTML = "3";
@@ -414,6 +432,10 @@ document.getElementById("retry").onclick = function() {
 }
 
 document.getElementById("home").onclick = function() {
+    document.getElementById("menu_content").style.display = "block"
+    document.getElementById("gameStats").style.visibility = "hidden"
+}
+document.getElementById("home1").onclick = function() {
     document.getElementById("menu_content").style.display = "block"
     document.getElementById("gameStats").style.visibility = "hidden"
 }
@@ -593,4 +615,5 @@ document.getElementById("leave_campaign_page").onclick = function() {
 document.getElementById("campaign").onclick = function() {
     document.getElementById("campaign_page").style.display = "block";
     document.getElementById("campaign_page").style.display = "block";
+    loadCampaign()
 }
