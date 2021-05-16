@@ -120,7 +120,7 @@ document.addEventListener("keypress", function(e) {
                         nextWave();
                     }
                 }
-                console.log(currentWave)
+
                 if (checkFirst().lastBall == true) {
                     gameFinished()
                 }
@@ -154,8 +154,13 @@ document.addEventListener("keypress", function(e) {
 })
 
 function loadCampaign() {
+    var temp;
     document.getElementById("campaign_levels").innerHTML = ""
     for (x in levels) {
+        if (x != "level_1" && levels[temp]["stars"] > 0) {
+            levels[x]["locked"] = false;
+        }
+        temp = x
         var create_div = document.createElement("div")
         create_div.id = "level_" + levels[x]["levelNumber"] + "_box"
         create_div.setAttribute('data-levelnumber', levels[x]["levelNumber"])
@@ -182,9 +187,8 @@ function loadCampaign() {
         } else {
             create_div.onclick = function() {
                 loadLevel(levels["level_" + this.dataset.levelnumber])
-            }
+            }         
         }
-
     }
 }
 
@@ -263,14 +267,10 @@ function makeTarget() {
     targets[currentTarget].moveTarget();
     lifeBallCreate(currentTarget);
 
-    // if (levels["level_" + currentLevel["levelNumber"]]["waveEnd"][currentWave - 1] - 1 == currentTarget && gameEnd == false) {
-    //     nextWave()
-    // }
-
-    if (currentTarget + 1 == levels["level_" + currentLevel["levelNumber"]]["qtyTargets"]) {
+    if (currentLevel != "survival" && currentTarget + 1 == levels["level_" + currentLevel["levelNumber"]]["qtyTargets"]) {
         targets[currentTarget].lastBall = true;
     }
-}
+} 
 
 function spawnTargets() {
     if (currentLevel == "survival") {
@@ -288,7 +288,15 @@ function spawnTargets() {
 }
 
 function nextWave() {
-    currentWave++
+    setTimeout(function(){
+        document.getElementById("countDown_text").style.fontSize = "34px"
+        document.getElementById("countDown").style.display = "initial"
+        document.getElementById("countDown_text").innerHTML = "Wave " + currentWave+ " Finished"
+        currentWave++
+        setTimeout(function(){
+            document.getElementById("countDown").style.display = "none"
+        }, 3000)
+    }, 500)
 }
 
 function lifeBallCreate(targetName) {
@@ -373,6 +381,7 @@ function giveStars() {
 }
 
 function countDownTimer() {
+    document.getElementById("countDown_text").style.fontSize = "86px"
     countDownSEC--
     document.getElementById("countDown_text").innerHTML = countDownSEC;
     if (countDownSEC == 0) {
