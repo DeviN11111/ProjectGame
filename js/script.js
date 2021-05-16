@@ -99,6 +99,9 @@ document.body.onload = function() {
             document.getElementById("theme_" + theme).style.border = "solid green 5px"
             paintPage(theme)
         }
+        if(localStorage.getItem("levels_local") != null) {
+            levels = JSON.parse(localStorage.getItem("levels_local"));
+        }
         loadCampaign()
     }
     ////////////////////////////////////////////////////
@@ -233,7 +236,7 @@ function makeTarget() {
                             temp.style.backgroundColor = themeColors[theme][0];
                         }, 200)
                         loseLife()
-                        if (gameEnd == false) {
+                        if (gameEnd == false && currentLevel != "survival") {
                             if (trgt.index == levels["level_" + currentLevel["levelNumber"]]["waveEnd"][currentWave - 1] - 1) {
                                 nextWave();
                             }
@@ -351,6 +354,7 @@ function gameFinished() {
     document.getElementById("highscore_text").innerHTML = "Best : " + bestScore
     document.getElementById("Totaltime_text").innerHTML = "Time : " + totalTimeMIN + "m " + totalTimeSEC + "s"
     document.getElementById("gameStats").style.display = "none"
+    localStorage.setItem("levels_local", JSON.stringify(levels));
 }
 
 function gameOver() {
@@ -369,6 +373,7 @@ function gameOver() {
     document.getElementById("highscore_text").innerHTML = "Best : " + bestScore
     document.getElementById("Totaltime_text").innerHTML = "Time : " + totalTimeMIN + "m " + totalTimeSEC + "s"
     document.getElementById("gameStats").style.display = "none"
+    localStorage.setItem("levels_local", JSON.stringify(levels));
 }
 
 function giveStars() {
