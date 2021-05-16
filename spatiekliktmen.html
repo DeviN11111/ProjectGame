@@ -96,7 +96,7 @@
         var timeStampsNofilter = [];
         var timeStampsfilter = [];
         var columnArray =[];
-
+        var speeds = prompt("Kies je targetSpeed voor deez wave")
         document.addEventListener("keypress", function(e) {
             if (e.code == "Digit1" || e.code == "Digit2"|| e.code == "Digit3"|| e.code == "Digit4") {
                 columnArray.push(e.code[5] - 1)
@@ -131,6 +131,11 @@
             for (i = 0; i < timeStampsfilter.length; i++) {
                 var kroket = timeStampsfilter[i] / 25
                 timeStampsfilter[i] = Math.round(kroket) * 25
+            }
+            for (i = 0; i < timeStampsfilter.length; i++) {
+                if(timeStampsfilter[i] < speeds * 2 + 10){
+                    timeStampsfilter[i] = speeds * 2 + 10
+                }
             }
         }
 
