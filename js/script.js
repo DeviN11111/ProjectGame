@@ -298,6 +298,7 @@ function nextWave() {
         currentWave++
         setTimeout(function(){
             document.getElementById("countDown").style.display = "none"
+            document.getElementById("countDown_text").style.fontSize = "86px"
         }, 3000)
     }, 500)
 }
