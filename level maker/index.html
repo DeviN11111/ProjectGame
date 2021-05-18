@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <div class="container">
+        <div id="page_1">
+            <div class="left">
+                <ul>
+                    <li>Vul in de bovenste input het level nummer</li>
+                    <li>Vul in de onderste input het totaal aantal targets van het level</li>
+                </ul>
+                <p><strong>LET OP :</strong> <br> het totaal aantal targets moet deelbaar door 3 zijn zodat er in alle waves een even aantal targets zijn.</p>
+            </div>
+            <div class="form">
+                <p>Level :</p>
+                <input type="text" id="levelNumber"><br><br>
+                <p>Level length :</p>
+                <input type="text" id="levelLength"><br><br>
+            </div>
+            <button id="nextBtn">Next</button>
+        </div>
+    </div>
+    <div id="error"></div>
+    <script src="js/timer.js"></script>
+    <script src="js/script.js"></script>
+</body>
+
+</html>
