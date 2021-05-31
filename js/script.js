@@ -78,6 +78,8 @@ var countDownSEC = 3
 var totalTimeSEC = 1;
 var totalTimeMIN = 0;
 
+
+
 // all local saved storage changes men ///////////////////
 document.body.onload = function() {
         if (localStorage.getItem("keyBinds_local") != null) {
@@ -157,6 +159,7 @@ document.addEventListener("keypress", function(e) {
 })
 
 function loadCampaign() {
+    var starAmount = 0;
     var temp;
     document.getElementById("campaign_levels").innerHTML = ""
     for (x in levels) {
@@ -193,7 +196,12 @@ function loadCampaign() {
             }         
         }
     }
+    for(x in levels){
+        starAmount = starAmount + levels[x]["stars"]
+    }
+    document.getElementById("chapter_2").innerHTML = starAmount +  "/30 Chapter 2"
 }
+
 
 function loadLevel(level) {
     reloadGame()
@@ -632,3 +640,4 @@ document.getElementById("campaign").onclick = function() {
     document.getElementById("campaign_page").style.display = "block";
     loadCampaign()
 }
+
